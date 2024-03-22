@@ -59,7 +59,7 @@ self.delete = async (req, res) => { }
 /**
 * @description Delete all users from the database
 * @type DELETE
-* @path /api/users/
+* @path /api/users/:id
 * @param {*} req
 * @param {*} res
 * @returns JSON
@@ -78,8 +78,6 @@ self.createUser = async (req, res) => {
   }
   try {
     const newUser = {
-      // firstName: req.body.firstName,
-      // lastName: req.body.lastName,
       email: req.body.email,
       password: await bcrypt.hash(req.body.password, 12),
     };
@@ -141,8 +139,11 @@ self.get = async (req, res) => {
 self.updateUser = async (req, res) => {
   try {
     let id = req.params.id;
-    let body = req.body;
-    let data = await user.update(body, {
+    const user_payload = {
+      email: req.body.email,
+      password: await bcrypt.hash(req.body.password, 12),
+    };
+    let data = await user.update(user_payload, {
       where: {
         id: id
       }
@@ -155,7 +156,7 @@ self.updateUser = async (req, res) => {
     }
     return res.status(200).json({
       success: true,
-      "number of rows changed": data
+      message: "User update successfully"
     })
   } catch (error) {
     res.status(500).json({

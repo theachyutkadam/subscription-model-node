@@ -4,7 +4,7 @@
   "description": "Create a new subscription model in node JS, with monthly and yearly plan and setup with MySQL DB.",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development node index.js",
+    "dev": "NODE_ENV=development nodemon node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
