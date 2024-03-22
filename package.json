@@ -1,0 +1,12 @@
+{
+  "name": "subscription-model-node",
+  "version": "1.0.0",
+  "description": "Create a new subscription model in node JS, with monthly and yearly plan and setup with MySQL DB.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
