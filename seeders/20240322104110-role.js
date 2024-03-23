@@ -12,6 +12,24 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+    await queryInterface.bulkInsert('Roles', [
+      {
+        name: 'superAdmin',
+        status: 1,
+        description: 'demo',
+        // deletedAt: '',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'admin',
+        status: 0,
+        description: 'demo',
+        // deletedAt: '',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+      ], {});
   },
 
   async down (queryInterface, Sequelize) {
@@ -21,5 +39,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete('Roles', null, {});
   }
 };

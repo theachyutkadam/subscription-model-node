@@ -11,12 +11,20 @@ module.exports = {
     await queryInterface.bulkInsert('Users', [
     {
       email: 'superAdmin@gmail.com',
-      password: 'admin'
+      password: 'admin',
+      role_id: 1,
+      // deletedAt: '',
+      createdAt: new Date(),
+      updatedAt: new Date()
     },
     {
       email: 'admin@gmail.com',
-      password: '12345678'
-    },
+      role_id: 2,
+      password: '12345678',
+      // deletedAt: '',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
     ], {});
   },
 
@@ -27,5 +35,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete('Users', null, {});
   }
 };
