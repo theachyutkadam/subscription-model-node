@@ -10,10 +10,22 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'users',
+          key: 'id',
+          as: 'user_id',
+        }
       },
       plan_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'plans',
+          key: 'id',
+          as: 'plan_id',
+        }
       },
       activation_date: {
         type: Sequelize.DATE

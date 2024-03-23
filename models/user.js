@@ -9,6 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      user.belongsTo(models.role, {
+        foreignKey: 'role_id',
+        onDelete: 'CASCADE'
+      }),
+      user.hasMany(models.user_information, {
+        foreignKey: 'user_id',
+      }),
+      user.hasMany(models.subscription, {
+        foreignKey: 'user_id',
+      })
     }
   }
   user.init({
@@ -17,6 +27,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'user',
+    paranoid: true,
+    deletedAt: 'deletedAt'
   });
   return user;
 };

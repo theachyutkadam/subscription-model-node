@@ -9,16 +9,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      role.hasMany(models.user, {
+        foreignKey: 'role_id',
+      })
     }
   }
   role.init({
     name: DataTypes.STRING,
     status: DataTypes.INTEGER,
-    is_deleted: DataTypes.DATE,
     description: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'role',
+    paranoid: true,
+    deletedAt: 'deletedAt'
   });
   return role;
 };

@@ -18,6 +18,8 @@ app.get("/", (req, res) => {
 
 const users = require('./routes/user.routes');
 app.use('/api/users', users);
+const roles = require('./routes/role.routes');
+app.use('/api/roles', roles);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
