@@ -16,7 +16,6 @@ let self = {};
 */
 self.getAll = async (req, res) => { }
 
-
 /**
  * @description Authentication process with username and password
  * @type GET
@@ -77,6 +76,7 @@ self.delete = async (req, res) => { }
 * @returns JSON
 */
 self.deleteAll = async (req, res) => { };
+
 module.exports = self;
 
 // create user funcation--------

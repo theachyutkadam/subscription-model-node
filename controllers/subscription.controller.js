@@ -9,8 +9,8 @@ let self = {};
 * @param {*} req
 * @param {*} res
 * @returns JSON
-*/
-self.getAll = async (req, res) => { }
+*/self.getAll = async (req, res) => { }
+
 
 /**
 * @description Create New Subscription
@@ -20,8 +20,8 @@ self.getAll = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.createSubscription = async (req, res) => { }
+
 /**
 * @description Get Single Subscription info by id
 * @type GET
@@ -31,8 +31,8 @@ self.createSubscription = async (req, res) => { }
 * @param {Number} — id — subscription id
 * @returns JSON
 */
-
 self.get = async (req, res) => { }
+
 /**
 * @description Update Subscription data
 * @type PUT
@@ -41,8 +41,8 @@ self.get = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.updateSubscription = async (req, res) => { }
+
 /**
 * @description Delete subscription with the specified id in the request
 * @type DELETE
@@ -51,8 +51,8 @@ self.updateSubscription = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.delete = async (req, res) => { }
+
 /**
 * @description Delete all subscriptions from the database
 * @type DELETE
@@ -61,8 +61,8 @@ self.delete = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.deleteAll = async (req, res) => { };
+
 module.exports = self;
 
 // create subscription funcation--------

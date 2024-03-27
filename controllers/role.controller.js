@@ -1,7 +1,6 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const auth = require('../config/authentications');
 
-const { role, Sequelize, Users } = require("./../models");
+const { role, Sequelize } = require("./../models");
 const Op = Sequelize.Op;
 let self = {};
 
@@ -23,8 +22,8 @@ self.getAll = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.createRole = async (req, res) => { }
+
 /**
 * @description Get Single Role info by id
 * @type GET
@@ -34,8 +33,8 @@ self.createRole = async (req, res) => { }
 * @param {Number} — id — role id
 * @returns JSON
 */
-
 self.get = async (req, res) => { }
+
 /**
 * @description Update Role data
 * @type PUT
@@ -44,8 +43,8 @@ self.get = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.updateRole = async (req, res) => { }
+
 /**
 * @description Delete role with the specified id in the request
 * @type DELETE
@@ -54,8 +53,8 @@ self.updateRole = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.delete = async (req, res) => { }
+
 /**
 * @description Delete all roles from the database
 * @type DELETE
@@ -64,8 +63,8 @@ self.delete = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.deleteAll = async (req, res) => { };
+
 module.exports = self;
 
 // create role funcation--------

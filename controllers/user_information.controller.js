@@ -20,8 +20,8 @@ self.getAll = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.createUserInformation = async (req, res) => { }
+
 /**
 * @description Get Single UserInformation info by id
 * @type GET
@@ -31,8 +31,8 @@ self.createUserInformation = async (req, res) => { }
 * @param {Number} — id — user_information id
 * @returns JSON
 */
-
 self.get = async (req, res) => { }
+
 /**
 * @description Update UserInformation data
 * @type PUT
@@ -41,8 +41,8 @@ self.get = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.updateUserInformation = async (req, res) => { }
+
 /**
 * @description Delete user_information with the specified id in the request
 * @type DELETE
@@ -51,8 +51,8 @@ self.updateUserInformation = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.delete = async (req, res) => { }
+
 /**
 * @description Delete all user_informations from the database
 * @type DELETE
@@ -61,8 +61,8 @@ self.delete = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.deleteAll = async (req, res) => { };
+
 module.exports = self;
 
 // create user_information funcation--------
