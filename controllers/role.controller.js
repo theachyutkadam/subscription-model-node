@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const { role, Sequelize } = require("./../models");
+const { role, Sequelize, Users } = require("./../models");
 const Op = Sequelize.Op;
 let self = {};
 

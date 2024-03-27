@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'role_id',
         onDelete: 'CASCADE'
       }),
-      user.hasMany(models.user_information, {
+      user.hasOne(models.user_information, {
         foreignKey: 'user_id',
       }),
       user.hasMany(models.subscription, {
@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   user.init({
     email: DataTypes.STRING,
-    password: DataTypes.STRING
+    password: DataTypes.STRING,
+    role_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'user',

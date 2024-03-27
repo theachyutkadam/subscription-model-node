@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { user, Sequelize } = require("./../models");
+const { Roles } = require("./../models/role");
 const Op = Sequelize.Op;
 let self = {};
 
@@ -97,7 +98,16 @@ self.createUser = async (req, res) => {
 // get all users funcation--------
 self.getAll = async (req, res) => {
   try {
-    let data = await user.findAll({});
+    console.log('Check--return association->');
+    let data = await user.findAll({
+      include: [
+        {
+          model: Roles,
+          // association: 'relatedRole', as: 'roles'
+        }
+      ],
+    });
+    console.log('Check--response data->', data);
     return res.status(200).json({
       success: true,
       count: data.length,
@@ -116,6 +126,10 @@ self.get = async (req, res) => {
   try {
     let id = req.params.id;
     let data = await user.findByPk(id);
+    // let data = user.findOne({
+    //   where: {id: 5},
+    //   include: [{model: Roles}]
+    // })
     if (data)
       return res.status(200).json({
         success: true,

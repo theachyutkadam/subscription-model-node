@@ -1,40 +1,30 @@
 'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
+// var faker = require("faker");
+import { faker } from '@faker-js/faker';
+
 module.exports = {
   async up (queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-    */
-    await queryInterface.bulkInsert('Users', [
-    {
-      email: 'superAdmin@gmail.com',
-      password: 'admin',
-      role_id: 1,
-      // deletedAt: '',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      email: 'admin@gmail.com',
-      role_id: 2,
-      password: '12345678',
-      // deletedAt: '',
-      createdAt: new Date(),
-      updatedAt: new Date()
+    const usersList = [];
+    for (let i = 0; i < 100; i++) {
+      usersList.push(setupUserPayload());
     }
-    ], {});
+    await queryInterface.bulkInsert('Users', usersList, {});
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
     await queryInterface.bulkDelete('Users', null, {});
+  },
+
+  async setupUserPayload(){
+    const userSeedData = {
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      role_id: [0,1,2,3].random(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    return userSeedData
   }
 };

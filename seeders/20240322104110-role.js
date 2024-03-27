@@ -17,7 +17,6 @@ module.exports = {
         name: 'superAdmin',
         status: 1,
         description: 'demo',
-        // deletedAt: '',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -25,7 +24,6 @@ module.exports = {
         name: 'admin',
         status: 0,
         description: 'demo',
-        // deletedAt: '',
         createdAt: new Date(),
         updatedAt: new Date()
       }
