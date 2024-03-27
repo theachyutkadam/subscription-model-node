@@ -132,11 +132,8 @@ self.get = async (req, res) => {
 self.updatePlan = async (req, res) => {
   try {
     let id = req.params.id;
-    let data = await plan.update(req.body, {
-      where: {
-        id: id
-      }
-    });
+    let data = await plan.update(req.body, {where: {id: id}});
+    let updatedPlan = await plan.findByPk(id);
     if (data[0] === 0) {
       return res.status(200).json({
         success: false,
@@ -145,6 +142,7 @@ self.updatePlan = async (req, res) => {
     }
     return res.status(200).json({
       success: true,
+      data: updatedPlan,
       message: "Plan update successfully"
     })
   } catch (error) {

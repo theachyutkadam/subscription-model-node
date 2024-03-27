@@ -134,11 +134,8 @@ self.get = async (req, res) => {
 self.updateRole = async (req, res) => {
   try {
     let id = req.params.id;
-    let data = await role.update(req.body, {
-      where: {
-        id: id
-      }
-    });
+    let data = await role.update(req.body, {where: {id: id}});
+    let updatedRole = await role.findByPk(id);
     if (data[0] === 0) {
       return res.status(200).json({
         success: false,
@@ -147,6 +144,7 @@ self.updateRole = async (req, res) => {
     }
     return res.status(200).json({
       success: true,
+      data: updatedRole,
       message: "Role update successfully"
     })
   } catch (error) {

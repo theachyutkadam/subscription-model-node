@@ -897,11 +897,6 @@
             "type": "string",
             "format": "date-time",
             "required": true
-          },
-          "plan_price": {
-            "type": "number",
-            "minimum": 100.00,
-            "required": true
           }
         }
       }

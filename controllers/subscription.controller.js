@@ -67,12 +67,6 @@ module.exports = self;
 
 // create subscription funcation--------
 self.createSubscription = async (req, res) => {
-  // if (!req.body.name) {
-  //   return res.status(400).send({
-  //     success: false,
-  //     message: "Content can not be empty!"
-  //   });
-  // }
   try {
     let data = await subscription.create(req.body);
     return res.status(201).json({
@@ -107,8 +101,8 @@ self.getAll = async (req, res) => {
 // get single subscription by ID funcation--------
 self.get = async (req, res) => {
   try {
-    let id = req.params.id;
-    let data = await subscription.findByPk(id);
+    // let id = req.params.id;
+    let data = await subscription.findByPk(req.params.id);
     if (data)
       return res.status(200).json({
         success: true,
@@ -132,11 +126,9 @@ self.get = async (req, res) => {
 self.updateSubscription = async (req, res) => {
   try {
     let id = req.params.id;
-    let data = await subscription.update(req.body, {
-      where: {
-        id: id
-      }
-    });
+    let data = await subscription.update(req.body, {where: {id: id}});
+    let updatedSubscription = await subscription.findByPk(id);
+
     if (data[0] === 0) {
       return res.status(200).json({
         success: false,
@@ -145,6 +137,7 @@ self.updateSubscription = async (req, res) => {
     }
     return res.status(200).json({
       success: true,
+      data: updatedSubscription,
       message: "Subscription update successfully"
     })
   } catch (error) {

@@ -164,10 +164,6 @@ self.get = async (req, res) => {
   try {
     let id = req.params.id;
     let data = await user.findByPk(id);
-    // let data = user.findOne({
-    //   where: {id: 5},
-    //   include: [{model: Roles}]
-    // })
     if (data)
       return res.status(200).json({
         success: true,
@@ -195,11 +191,8 @@ self.updateUser = async (req, res) => {
       email: req.body.email,
       password: await bcrypt.hash(req.body.password, 12),
     };
-    let data = await user.update(user_payload, {
-      where: {
-        id: id
-      }
-    });
+    let data = await user.update(user_payload, {where: {id: id}});
+    let updatedUser = await user.findByPk(id, {attributes: ['id', 'email', "role_id"]});
     if (data[0] === 0) {
       return res.status(200).json({
         success: false,
@@ -208,6 +201,7 @@ self.updateUser = async (req, res) => {
     }
     return res.status(200).json({
       success: true,
+      data: updatedUser,
       message: "User update successfully"
     })
   } catch (error) {
