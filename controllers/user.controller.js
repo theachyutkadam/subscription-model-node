@@ -100,12 +100,11 @@ self.getAll = async (req, res) => {
   try {
     console.log('Check--return association->');
     let data = await user.findAll({
-      include: [
-        {
-          model: Roles,
-          // association: 'relatedRole', as: 'roles'
-        }
-      ],
+      // include: [
+      //   {
+      //     model: Roles,
+      //   }
+      // ],
     });
     console.log('Check--response data->', data);
     return res.status(200).json({

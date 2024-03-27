@@ -1,0 +1,914 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "User Subscription API",
+    "description": "API for managing application",
+    "version": "2.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api",
+      "description": "Only for developer"
+    }
+  ],
+
+  "paths": {
+    "/users/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Login user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Authentication"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Authentication"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/roles": {
+      "get": {
+        "tags": [
+          "roles"
+        ],
+        "summary": "Get all roles",
+        "responses": {
+          "200": {
+            "description": "A list of roles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/role"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "roles"
+        ],
+        "summary": "Create a new role",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/role"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The newly created role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/role"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/roles/{id}": {
+      "get": {
+        "tags": [
+          "roles"
+        ],
+        "summary": "Get role by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/role"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "roles"
+        ],
+        "summary": "Update role by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/role"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/role"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "roles"
+        ],
+        "summary": "Delete role by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "role deleted successfully"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get all users",
+        "responses": {
+          "200": {
+            "description": "A list of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Create a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The newly created user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Users"],
+        "summary": "Update user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Delete user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully"
+          }
+        }
+      }
+    },
+    "/user_informations": {
+      "get": {
+        "tags": [
+          "UserInformations"
+        ],
+        "summary": "Get all user_informations",
+        "responses": {
+          "200": {
+            "description": "A list of user_informations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserInformation"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "UserInformations"
+        ],
+        "summary": "Create a new user_information",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInformation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The newly created user_information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserInformation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user_informations/{id}": {
+      "get": {
+        "tags": [
+          "UserInformations"
+        ],
+        "summary": "Get user_information by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user_information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserInformation"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "UserInformations"
+        ],
+        "summary": "Update user_information by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInformation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated user_information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserInformation"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "UserInformations"
+        ],
+        "summary": "Delete user_information by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "UserInformation deleted successfully"
+          }
+        }
+      }
+    },
+    "/plans": {
+      "get": {
+        "tags": [
+          "Plans"
+        ],
+        "summary": "Get all plans",
+        "responses": {
+          "200": {
+            "description": "A list of plans",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Plan"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Plans"
+        ],
+        "summary": "Create a new plan",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Plan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The newly created plan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plan"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plans/{id}": {
+      "get": {
+        "tags": [
+          "Plans"
+        ],
+        "summary": "Get plan by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The plan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plan"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Plans"
+        ],
+        "summary": "Update plan by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Plan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated plan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plan"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Plans"
+        ],
+        "summary": "Delete plan by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plan deleted successfully"
+          }
+        }
+      }
+    },
+    "/subscriptions": {
+      "get": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Get all subscriptions",
+        "responses": {
+          "200": {
+            "description": "A list of subscriptions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Subscription"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Create a new subscription",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Subscription"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The newly created subscription",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{id}": {
+      "get": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Get subscription by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The subscription",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Update subscription by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Subscription"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated subscription",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Subscriptions"
+        ],
+        "summary": "Delete subscription by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscription deleted successfully"
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Authentication": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "admin@gmail.com",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "example": "12345678",
+            "required": true
+          }
+        }
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "integer",
+            "required": true,
+            "enum": ["pending", "active", "block", "deleted"]
+          },
+          "description": {
+            "type": "text",
+            "maximum": 300
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "required": true,
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "required": true,
+            "format": "password "
+          },
+          "role_id": {
+            "type": "integer",
+            "required": true
+          }
+        }
+      },
+      "UserInformation": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "type": "string",
+            "required": true
+          },
+          "last_name": {
+            "type": "string",
+            "required": true
+          },
+          "birth_date": {
+            "type": "string",
+            "format": "date-time",
+            "required": true
+          },
+          "contact": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 13,
+            "required": true
+          },
+          "maritial_status": {
+            "type": "integer",
+            "required": true,
+            "enum": [
+              "single",
+              "married",
+              "divorsed"
+            ]
+          },
+          "user_id": {
+            "type": "integer",
+            "nullable": false,
+            "required": true
+          }
+        }
+      },
+      "Plan": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "price": {
+            "type": "number",
+            "minimum": 100.00,
+            "required": true
+          },
+          "is_active": {
+            "type": "boolean",
+            "default": false,
+            "nullable": false
+          },
+          "expire_at": {
+            "type": "string",
+            "format": "date-time",
+            "required": true
+          },
+          "type": {
+            "type": "integer",
+            "required": true,
+            "enum": [
+              "monthly",
+              "qurterly",
+              "yearly"
+            ]
+          },
+          "description": {
+            "type": "text",
+            "maximum": 300
+          }
+        }
+      },
+      "Subscription": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "nullable": false,
+            "required": true
+          },
+          "plan_id": {
+            "type": "integer",
+            "nullable": false,
+            "required": true
+          },
+          "activation_date": {
+            "type": "string",
+            "format": "date-time",
+            "required": true
+          },
+          "expired_date": {
+            "type": "string",
+            "format": "date-time",
+            "required": true
+          },
+          "plan_price": {
+            "type": "number",
+            "minimum": 100.00,
+            "required": true
+          }
+        }
+      }
+    }
+  },
+
+  "security": [
+    { "bearerAuth": [] }
+  ]
+}
