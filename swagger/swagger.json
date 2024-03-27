@@ -55,7 +55,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/role"
+                    "$ref": "#/components/schemas/Role"
                   }
                 }
               }
@@ -73,7 +73,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/role"
+                "$ref": "#/components/schemas/Role"
               }
             }
           }
@@ -84,7 +84,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/role"
+                  "$ref": "#/components/schemas/Role"
                 }
               }
             }
@@ -114,7 +114,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/role"
+                  "$ref": "#/components/schemas/Role"
                 }
               }
             }
@@ -141,7 +141,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/role"
+                "$ref": "#/components/schemas/Role"
               }
             }
           }
@@ -152,7 +152,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/role"
+                  "$ref": "#/components/schemas/Role"
                 }
               }
             }
@@ -907,7 +907,6 @@
       }
     }
   },
-
   "security": [
     { "bearerAuth": [] }
   ]

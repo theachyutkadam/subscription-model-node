@@ -1,9 +1,9 @@
+const auth = require('../config/authentications');
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { user, Sequelize } = require("./../models");
-const { Roles } = require("./../models/role");
-const Op = Sequelize.Op;
 let self = {};
 
 /**
@@ -16,6 +16,17 @@ let self = {};
 */
 self.getAll = async (req, res) => { }
 
+
+/**
+ * @description Authentication process with username and password
+ * @type GET
+ * @path /api/users/login
+ * @param {*} req
+ * @param {*} res
+ * @returns JSON
+*/
+self.loginUser = async (req, res) => { }
+
 /**
 * @description Create New User
 * @type POST
@@ -24,19 +35,19 @@ self.getAll = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.createUser = async (req, res) => { }
+
 /**
 * @description Get Single User info by id
 * @type GET
-* @path /api/users/:id
+* @path /api/users/
 * @param {*} req
 * @param {*} res
 * @param {Number} — id — user id
 * @returns JSON
 */
-
 self.get = async (req, res) => { }
+
 /**
 * @description Update User data
 * @type PUT
@@ -45,8 +56,8 @@ self.get = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.updateUser = async (req, res) => { }
+
 /**
 * @description Delete user with the specified id in the request
 * @type DELETE
@@ -55,8 +66,8 @@ self.updateUser = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.delete = async (req, res) => { }
+
 /**
 * @description Delete all users from the database
 * @type DELETE
@@ -65,10 +76,38 @@ self.delete = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-
 self.deleteAll = async (req, res) => { };
 module.exports = self;
 
+// create user funcation--------
+self.logiUser = async (req, res) => {
+  console.log('Check-auth lgoin method-->', req.body);
+  if (!req.body.email || !req.body.password) {
+    return res.status(400).send({
+      success: false,
+      message: "Content can not be empty!"
+    });
+  }
+  try {
+    const user_data = await user.findOne({where: {email: req.body.email}});
+    if(!user_data){
+      res.status(401).json({ message: 'User not found' });
+    }else if (await bcrypt.compare(req.body.password, user['password'])) {
+      const tokenPayload = {email: user['email']};
+      res.json(
+        {
+          status: 'success',
+          message: 'User Logged In!',
+          token: jwt.sign(tokenPayload, 'SECRET')
+        }
+      );
+    } else {
+      res.status(401).json({ message: 'Invalid credentials' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 // create user funcation--------
 self.createUser = async (req, res) => {
   if (!req.body.email || !req.body.password) {

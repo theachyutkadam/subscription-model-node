@@ -1,140 +1,140 @@
-"/plans": {
-  "get": {
-    "tags": [
-      "Plans"
-    ],
-    "summary": "Get all plans",
-    "responses": {
-      "200": {
-        "description": "A list of plans",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/Plan"
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "post": {
-    "tags": [
-      "Plans"
-    ],
-    "summary": "Create a new plan",
-    "requestBody": {
-      "required": true,
-      "content": {
-        "application/json": {
-          "schema": {
-            "$ref": "#/components/schemas/Plan"
-          }
-        }
-      }
-    },
-    "responses": {
-      "200": {
-        "description": "The newly created plan",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Plan"
-            }
-          }
-        }
-      }
-    }
-  }
-},
-"/plans/{id}": {
-  "get": {
-    "tags": [
-      "Plans"
-    ],
-    "summary": "Get plan by ID",
-    "parameters": [
-      {
-        "name": "id",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "integer"
-        }
-      }
-    ],
-    "responses": {
-      "200": {
-        "description": "The plan",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Plan"
-            }
-          }
-        }
-      }
-    }
-  },
-  "put": {
-    "tags": [
-      "Plans"
-    ],
-    "summary": "Update plan by ID",
-    "parameters": [
-      {
-        "name": "id",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "integer"
-        }
-      }
-    ],
-    "requestBody": {
-      "required": true,
-      "content": {
-        "application/json": {
-          "schema": {
-            "$ref": "#/components/schemas/Plan"
-          }
-        }
-      }
-    },
-    "responses": {
-      "200": {
-        "description": "The updated plan",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Plan"
-            }
-          }
-        }
-      }
-    }
-  },
-  "delete": {
-    "tags": [
-      "Plans"
-    ],
-    "summary": "Delete plan by ID",
-    "parameters": [
-      {
-        "name": "id",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "integer"
-        }
-      }
-    ],
-    "responses": {
-      "200": {
-        "description": "Plan deleted successfully"
-      }
-    }
-  }
-}
+// "/plans": {
+//   "get": {
+//     "tags": [
+//       "Plans"
+//     ],
+//     "summary": "Get all plans",
+//     "responses": {
+//       "200": {
+//         "description": "A list of plans",
+//         "content": {
+//           "application/json": {
+//             "schema": {
+//               "type": "array",
+//               "items": {
+//                 "$ref": "#/components/schemas/Plan"
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   },
+//   "post": {
+//     "tags": [
+//       "Plans"
+//     ],
+//     "summary": "Create a new plan",
+//     "requestBody": {
+//       "required": true,
+//       "content": {
+//         "application/json": {
+//           "schema": {
+//             "$ref": "#/components/schemas/Plan"
+//           }
+//         }
+//       }
+//     },
+//     "responses": {
+//       "200": {
+//         "description": "The newly created plan",
+//         "content": {
+//           "application/json": {
+//             "schema": {
+//               "$ref": "#/components/schemas/Plan"
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// },
+// "/plans/{id}": {
+//   "get": {
+//     "tags": [
+//       "Plans"
+//     ],
+//     "summary": "Get plan by ID",
+//     "parameters": [
+//       {
+//         "name": "id",
+//         "in": "path",
+//         "required": true,
+//         "schema": {
+//           "type": "integer"
+//         }
+//       }
+//     ],
+//     "responses": {
+//       "200": {
+//         "description": "The plan",
+//         "content": {
+//           "application/json": {
+//             "schema": {
+//               "$ref": "#/components/schemas/Plan"
+//             }
+//           }
+//         }
+//       }
+//     }
+//   },
+//   "put": {
+//     "tags": [
+//       "Plans"
+//     ],
+//     "summary": "Update plan by ID",
+//     "parameters": [
+//       {
+//         "name": "id",
+//         "in": "path",
+//         "required": true,
+//         "schema": {
+//           "type": "integer"
+//         }
+//       }
+//     ],
+//     "requestBody": {
+//       "required": true,
+//       "content": {
+//         "application/json": {
+//           "schema": {
+//             "$ref": "#/components/schemas/Plan"
+//           }
+//         }
+//       }
+//     },
+//     "responses": {
+//       "200": {
+//         "description": "The updated plan",
+//         "content": {
+//           "application/json": {
+//             "schema": {
+//               "$ref": "#/components/schemas/Plan"
+//             }
+//           }
+//         }
+//       }
+//     }
+//   },
+//   "delete": {
+//     "tags": [
+//       "Plans"
+//     ],
+//     "summary": "Delete plan by ID",
+//     "parameters": [
+//       {
+//         "name": "id",
+//         "in": "path",
+//         "required": true,
+//         "schema": {
+//           "type": "integer"
+//         }
+//       }
+//     ],
+//     "responses": {
+//       "200": {
+//         "description": "Plan deleted successfully"
+//       }
+//     }
+//   }
+// }

@@ -1,14 +1,11 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
-const { role, Sequelize, Users } = require("./../models");
+const { subscription, Sequelize } = require("./../models");
 const Op = Sequelize.Op;
 let self = {};
 
 /**
-* @description Get All Roles
+* @description Get All Subscriptions
 * @type GET
-* @path /api/roles
+* @path /api/subscriptions
 * @param {*} req
 * @param {*} res
 * @returns JSON
@@ -16,40 +13,40 @@ let self = {};
 self.getAll = async (req, res) => { }
 
 /**
-* @description Create New Role
+* @description Create New Subscription
 * @type POST
-* @path /api/roles/
+* @path /api/subscriptions/
 * @param {*} req
 * @param {*} res
 * @returns JSON
 */
 
-self.createRole = async (req, res) => { }
+self.createSubscription = async (req, res) => { }
 /**
-* @description Get Single Role info by id
+* @description Get Single Subscription info by id
 * @type GET
-* @path /api/roles/:id
+* @path /api/subscriptions/:id
 * @param {*} req
 * @param {*} res
-* @param {Number} — id — role id
+* @param {Number} — id — subscription id
 * @returns JSON
 */
 
 self.get = async (req, res) => { }
 /**
-* @description Update Role data
+* @description Update Subscription data
 * @type PUT
-* @path /api/roles/:id
+* @path /api/subscriptions/:id
 * @param {*} req
 * @param {*} res
 * @returns JSON
 */
 
-self.updateRole = async (req, res) => { }
+self.updateSubscription = async (req, res) => { }
 /**
-* @description Delete role with the specified id in the request
+* @description Delete subscription with the specified id in the request
 * @type DELETE
-* @path /api/roles/:id
+* @path /api/subscriptions/:id
 * @param {*} req
 * @param {*} res
 * @returns JSON
@@ -57,9 +54,9 @@ self.updateRole = async (req, res) => { }
 
 self.delete = async (req, res) => { }
 /**
-* @description Delete all roles from the database
+* @description Delete all subscriptions from the database
 * @type DELETE
-* @path /api/roles/:id
+* @path /api/subscriptions/:id
 * @param {*} req
 * @param {*} res
 * @returns JSON
@@ -68,8 +65,8 @@ self.delete = async (req, res) => { }
 self.deleteAll = async (req, res) => { };
 module.exports = self;
 
-// create role funcation--------
-self.createRole = async (req, res) => {
+// create subscription funcation--------
+self.createSubscription = async (req, res) => {
   // if (!req.body.name) {
   //   return res.status(400).send({
   //     success: false,
@@ -77,7 +74,7 @@ self.createRole = async (req, res) => {
   //   });
   // }
   try {
-    let data = await role.create(req.body);
+    let data = await subscription.create(req.body);
     return res.status(201).json({
       success: true,
       data: data
@@ -90,10 +87,10 @@ self.createRole = async (req, res) => {
   }
 }
 
-// get all roles funcation--------
+// get all subscriptions funcation--------
 self.getAll = async (req, res) => {
   try {
-    let data = await role.findAll({});
+    let data = await subscription.findAll({});
     return res.status(200).json({
       success: true,
       count: data.length,
@@ -107,11 +104,11 @@ self.getAll = async (req, res) => {
   }
 }
 
-// get single role by ID funcation--------
+// get single subscription by ID funcation--------
 self.get = async (req, res) => {
   try {
     let id = req.params.id;
-    let data = await role.findByPk(id);
+    let data = await subscription.findByPk(id);
     if (data)
       return res.status(200).json({
         success: true,
@@ -120,7 +117,7 @@ self.get = async (req, res) => {
     else
       return res.status(400).json({
         success: false,
-        error: "No such role present",
+        error: "No such subscription present",
         data: []
       })
   } catch (error) {
@@ -131,11 +128,11 @@ self.get = async (req, res) => {
   }
 }
 
-// update role by ID funcation--------
-self.updateRole = async (req, res) => {
+// update subscription by ID funcation--------
+self.updateSubscription = async (req, res) => {
   try {
     let id = req.params.id;
-    let data = await role.update(req.body, {
+    let data = await subscription.update(req.body, {
       where: {
         id: id
       }
@@ -143,12 +140,12 @@ self.updateRole = async (req, res) => {
     if (data[0] === 0) {
       return res.status(200).json({
         success: false,
-        error: "No role found with this id"
+        error: "No subscription found with this id"
       })
     }
     return res.status(200).json({
       success: true,
-      message: "Role update successfully"
+      message: "Subscription update successfully"
     })
   } catch (error) {
     res.status(500).json({
@@ -158,25 +155,25 @@ self.updateRole = async (req, res) => {
   }
 }
 
-// delete role by ID funcation--------
+// delete subscription by ID funcation--------
 self.delete = async (req, res) => {
   try {
     let id = req.params.id;
-    let data = await role.destroy({
+    let data = await subscription.destroy({
       where: {
         id: id
       }
     });
-    console.log('role record--->', data);
+    console.log('subscription record--->', data);
     if (data === 1) {
       return res.status(200).json({
         success: true,
-        message: `Role with id=${id} deleted`
+        message: `Subscription with id=${id} deleted`
       })
     }
     return res.status(200).json({
       success: false,
-      message: `Role with id=${id} is not present.`
+      message: `Subscription with id=${id} is not present.`
     })
   } catch (error) {
     return res.status(200).json({
@@ -186,10 +183,10 @@ self.delete = async (req, res) => {
   }
 }
 
-// delete all roles funcation--------
+// delete all subscriptions funcation--------
 self.deleteAll = async (req, res) => {
   try {
-    let data = await role.destroy({
+    let data = await subscription.destroy({
       where: {},
       truncate: true
     });
