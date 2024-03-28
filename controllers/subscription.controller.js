@@ -1,4 +1,6 @@
 const { subscription, Sequelize } = require("./../models");
+const models = require('./../models');
+
 const Op = Sequelize.Op;
 let self = {};
 
@@ -67,8 +69,18 @@ module.exports = self;
 
 // create subscription funcation--------
 self.createSubscription = async (req, res) => {
+  let plan = await models.plan.findByPk(req.body.plan_id);
+
+  const subscriptionPayload = {
+    activation_date: req.body.activation_date,
+    expired_date: req.body.expired_date,
+    plan_id: req.body.plan_id,
+    user_id: req.body.user_id,
+    plan_price: plan.price
+  };
+
   try {
-    let data = await subscription.create(req.body);
+    let data = await subscription.create(subscriptionPayload);
     return res.status(201).json({
       success: true,
       data: data

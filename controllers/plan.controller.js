@@ -20,8 +20,8 @@ self.getAll = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-self.createPlan = async (req, res) => { }
 
+self.createPlan = async (req, res) => { }
 /**
 * @description Get Single Plan info by id
 * @type GET
@@ -31,8 +31,8 @@ self.createPlan = async (req, res) => { }
 * @param {Number} — id — plan id
 * @returns JSON
 */
-self.get = async (req, res) => { }
 
+self.get = async (req, res) => { }
 /**
 * @description Update Plan data
 * @type PUT
@@ -41,8 +41,8 @@ self.get = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-self.updatePlan = async (req, res) => { }
 
+self.updatePlan = async (req, res) => { }
 /**
 * @description Delete plan with the specified id in the request
 * @type DELETE
@@ -51,8 +51,8 @@ self.updatePlan = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-self.delete = async (req, res) => { }
 
+self.delete = async (req, res) => { }
 /**
 * @description Delete all plans from the database
 * @type DELETE
@@ -61,8 +61,8 @@ self.delete = async (req, res) => { }
 * @param {*} res
 * @returns JSON
 */
-self.deleteAll = async (req, res) => { };
 
+self.deleteAll = async (req, res) => { };
 module.exports = self;
 
 // create plan funcation--------
