@@ -16,13 +16,13 @@ const roles = require('./routes/role.routes');
 const users = require('./routes/user.routes');
 const plans = require('./routes/plan.routes');
 const subscriptions = require('./routes/subscription.routes');
-const user_information = require('./routes/user_information.routes');
+const user_informations = require('./routes/user_information.routes');
 
 app.use('/api/users', users);
 app.use('/api/roles', roles);
 app.use('/api/plans', plans);
 app.use('/api/subscriptions', subscriptions);
-app.use('/api/user_information', user_information);
+app.use('/api/user_informations', user_informations);
 
 app.get("/", (req, res) => {
   res.json({

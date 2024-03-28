@@ -1,9 +1,12 @@
+
+const auth = require('../config/authentications');
 const role = require('./../controllers/role.controller');
 const router = require('express').Router();
-router.get('/', role.getAll);
-router.get('/:id', role.get);
-router.post('/', role.createRole);
-router.put('/:id', role.updateRole);
-router.delete('/:id', role.delete);
-router.delete('/', role.deleteAll);
+
+router.get('/', auth, role.getAll);
+router.get('/:id', auth, role.get);
+router.post('/', auth, role.createRole);
+router.put('/:id', auth, role.updateRole);
+router.delete('/:id', auth, role.delete);
+router.delete('/', auth, role.deleteAll);
 module.exports = router;

@@ -1,9 +1,8 @@
-const auth = require('../config/authentications');
-
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { user, Sequelize } = require("./../models");
+const Op = Sequelize.Op;
 let self = {};
 
 /**
@@ -108,8 +107,10 @@ self.logiUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 }
+
 // create user funcation--------
 self.createUser = async (req, res) => {
+  console.log('Check-create method-->', req.body);
   if (!req.body.email || !req.body.password) {
     return res.status(400).send({
       success: false,
@@ -119,6 +120,7 @@ self.createUser = async (req, res) => {
   try {
     const newUser = {
       email: req.body.email,
+      role_id: req.body.role_id,
       password: await bcrypt.hash(req.body.password, 12),
     };
     let data = await user.create(newUser);

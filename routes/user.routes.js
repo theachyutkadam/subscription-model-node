@@ -1,10 +1,13 @@
+const auth = require('../config/authentications');
 const user = require('./../controllers/user.controller');
 const router = require('express').Router();
-router.get('/', user.getAll);
-router.get('/:id', user.get);
+
 router.post('/login', user.loginUser);
 router.post('/', user.createUser);
-router.put('/:id', user.updateUser);
-router.delete('/:id', user.delete);
-router.delete('/', user.deleteAll);
+
+router.get('/', auth, user.getAll);
+router.get('/:id', auth, user.get);
+router.put('/:id', auth, user.updateUser);
+router.delete('/:id', auth, user.delete);
+router.delete('/', auth, user.deleteAll);
 module.exports = router;

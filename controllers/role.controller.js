@@ -1,5 +1,3 @@
-const auth = require('../config/authentications');
-
 const { role, Sequelize } = require("./../models");
 const Op = Sequelize.Op;
 let self = {};
