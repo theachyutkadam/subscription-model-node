@@ -79,7 +79,7 @@ self.deleteAll = async (req, res) => { };
 module.exports = self;
 
 // create user funcation--------
-self.logiUser = async (req, res) => {
+self.loginUser = async (req, res) => {
   console.log('Check-auth lgoin method-->', req.body);
   if (!req.body.email || !req.body.password) {
     return res.status(400).send({
@@ -89,10 +89,11 @@ self.logiUser = async (req, res) => {
   }
   try {
     const user_data = await user.findOne({where: {email: req.body.email}});
+    console.log('Check--finded user ass->', user_data.password);
     if(!user_data){
       res.status(401).json({ message: 'User not found' });
-    }else if (await bcrypt.compare(req.body.password, user['password'])) {
-      const tokenPayload = {email: user['email']};
+    }else if (await bcrypt.compare(req.body.password, user_data['password'])) {
+      const tokenPayload = {email: user_data['email']};
       res.json(
         {
           status: 'success',
