@@ -1,5 +1,7 @@
 'use strict';
 const {Model} = require('sequelize');
+const Sequelize = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class plan extends Model {
     /**
@@ -19,7 +21,10 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.FLOAT,
     is_active: DataTypes.BOOLEAN,
     expire_at: DataTypes.DATE,
-    type: DataTypes.INTEGER,
+    type: {
+      type:  Sequelize.ENUM('monthly', 'quarterly', 'yearly'),
+      defaultValue: "monthly"
+    },
     description: DataTypes.TEXT
   }, {
     sequelize,

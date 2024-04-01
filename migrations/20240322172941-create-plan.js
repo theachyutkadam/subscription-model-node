@@ -22,7 +22,9 @@ module.exports = {
         type: Sequelize.DATE
       },
       type: {
-        type: Sequelize.INTEGER
+        type: Sequelize.ENUM('monthly', 'quarterly', 'yearly'),
+        allowNull: false,
+        defaultValue: 'monthly'
       },
       description: {
         type: Sequelize.TEXT

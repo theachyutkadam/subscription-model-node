@@ -17,6 +17,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      status: {
+        type: Sequelize.ENUM('pending', 'active', 'inactive', 'deleted'),
+        allowNull: false,
+        defaultValue: 'pending'
+      },
       role_id: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',

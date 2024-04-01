@@ -17,8 +17,9 @@ module.exports = {
         allowNull: false,
       },
       status: {
-        type: Sequelize.INTEGER,
-        defaultValue: 1
+        type: Sequelize.ENUM('pending', 'active', 'inactive', 'deleted'),
+        defaultValue: 'pending',
+        allowNull: false
       },
       deletedAt: {
         type: Sequelize.DATE

@@ -22,7 +22,9 @@ module.exports = {
         type: Sequelize.DATEONLY
       },
       gender: {
-        type: Sequelize.INTEGER
+        type: Sequelize.ENUM('male', 'female', 'transgender'),
+        allowNull: false,
+        defaultValue: 'male'
       },
       user_id: {
         type: Sequelize.INTEGER,
@@ -34,7 +36,9 @@ module.exports = {
         }
       },
       maritial_status: {
-        type: Sequelize.INTEGER
+        type: Sequelize.ENUM('single', 'married', 'divorced', 'not discuess'),
+        allowNull: false,
+        defaultValue: 'single'
       },
       createdAt: {
         allowNull: false,

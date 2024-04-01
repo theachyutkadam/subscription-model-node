@@ -106,6 +106,7 @@ self.getAll = async (req, res) => {
 
 // get single role by ID funcation--------
 self.get = async (req, res) => {
+  console.log("status", role.getAttributes().status.values);
   try {
     let id = req.params.id;
     let data = await role.findByPk(id);

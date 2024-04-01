@@ -1,5 +1,7 @@
 'use strict';
 const {Model} = require('sequelize');
+const Sequelize = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class user_information extends Model {
     /**
@@ -20,9 +22,15 @@ module.exports = (sequelize, DataTypes) => {
     last_name: DataTypes.STRING,
     contact: DataTypes.STRING,
     birth_date: DataTypes.DATEONLY,
-    gender: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER,
-    maritial_status: DataTypes.INTEGER
+    maritial_status: {
+      type:  Sequelize.ENUM('single', 'married', 'divorced', 'not discuess'),
+      defaultValue: "single"
+    },
+    gender: {
+      type:  Sequelize.ENUM('male', 'female', 'transgender'),
+      defaultValue: "male"
+    }
   }, {
     sequelize,
     modelName: 'user_information',

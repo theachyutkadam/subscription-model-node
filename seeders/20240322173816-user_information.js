@@ -2,10 +2,13 @@
 
 /** @type {import('sequelize-cli').Migration} */
 const {faker} = require('@faker-js/faker');
+const { user_information, Sequelize } = require("./../models");
 
 module.exports = {
   async up (queryInterface, Sequelize) {
     const userInformationsList = [];
+    const genders = user_information.getAttributes().gender.values
+    const maritial_statuses = user_information.getAttributes().maritial_status.values
 
     for (let i = 0; i < 10; i++) {
       const userInformationSeedData = {
@@ -13,9 +16,9 @@ module.exports = {
         last_name: faker.person.lastName(),
         contact: faker.datatype.number({ min: 1111111111, max: 9999999999 }),
         birth_date: faker.date.anytime(),
-        gender: faker.datatype.number({ min: 0, max: 2 }),
         user_id: i+1,
-        maritial_status: faker.datatype.number({ min: 0, max: 2 }),
+        gender: genders[Math.floor(Math.random()*genders.length)],
+        maritial_status: maritial_statuses[Math.floor(Math.random()*maritial_statuses.length)],
         createdAt: new Date(),
         updatedAt: new Date()
       };

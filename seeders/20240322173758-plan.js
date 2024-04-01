@@ -1,17 +1,19 @@
 'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
-const {faker} = require('@faker-js/faker');
+const { faker } = require('@faker-js/faker');
+const { plan, Sequelize } = require("./../models");
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     const plansList = [];
+    const types = plan.getAttributes().type.values
     for (let i = 0; i < 10; i++) {
       const planSeedData = {
         name: faker.person.jobTitle(),
         price: faker.number.float({ min: 100, max: 5000, multipleOf: 0.02 }),
         is_active: faker.datatype.boolean(),
-        type: faker.datatype.number({ max: 3 }),
+        type: types[Math.floor(Math.random()*types.length)],
         expire_at: faker.date.anytime(),
         description: "none",
         createdAt: new Date(),
@@ -23,7 +25,7 @@ module.exports = {
     await queryInterface.bulkInsert('Plans', plansList, {});
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete('Plans', null, {});
   }
 };

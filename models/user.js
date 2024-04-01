@@ -1,5 +1,7 @@
 'use strict';
 const {Model} = require('sequelize');
+const Sequelize = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class user extends Model {
     /**
@@ -24,7 +26,11 @@ module.exports = (sequelize, DataTypes) => {
   user.init({
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    role_id: DataTypes.INTEGER
+    role_id: DataTypes.INTEGER,
+    status: {
+      type:  Sequelize.ENUM('pending', 'active', 'inactive', 'deleted'),
+      defaultValue: "pending"
+    }
   }, {
     sequelize,
     modelName: 'user',
