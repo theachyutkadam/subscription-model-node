@@ -91,9 +91,10 @@ self.loginUser = async (req, res) => {
   }
   try {
     const user_data = await user.findOne({where: {email: req.body.email}});
-    console.log('Check--finded user ass->', user_data.password);
     if(!user_data){
       res.status(401).json({ message: 'User not found' });
+    }else if (user_data.status != "active") {
+      res.status(401).json({ message: `sorry! you are status is ${user_data.status}, Please contact with admin`});
     }else if (await bcrypt.compare(req.body.password, user_data['password'])) {
       const tokenPayload = {email: user_data['email']};
       res.json(
@@ -260,5 +261,18 @@ self.deleteAll = async (req, res) => {
       success: false,
       error: error
     })
+  }
+}
+
+self.errorMessage = async(status, email) => {
+  switch (status) {
+    case 'inactive':
+      `sorry! ${email} your status is ${status}, Please contact with admin`
+      break;
+    case 'deleted':
+      `Hello ${email} your a ${status} user, create new account`
+      break;
+    case 'pending':
+      `Hey your status is ${status}, Admin will check as soon as posible`
   }
 };

@@ -6,7 +6,14 @@ const { user, Sequelize } = require("./../models");
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const usersList = [];
+    const usersList = [{
+      email: "admin@gmail.com",
+      password: "$2a$12$C1ysEDbeAPLvic86kF6k6O3di0U947zF8aVEkpClP1MjyuHT.ZQFq",
+      status: "active",
+      role_id: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }];
     const roles = [1,2]
     const statuses = user.getAttributes().status.values
 
