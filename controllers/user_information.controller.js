@@ -93,9 +93,7 @@ self.getAll = async (req, res) => {
   console.log('Check---user_information>');
   try {
     let data = await user_information.findAll({
-      include: [
-        {model: models.user, required: true}
-      ]
+      include: [{model: models.user, required: true}]
     });
     return res.status(200).json({
       success: true,
@@ -143,7 +141,9 @@ self.updateUserInformation = async (req, res) => {
   try {
     let id = req.params.id;
     let data = await user_information.update(req.body, {where: {id: id}});
-    let updatedUserInformation = await user_information.findByPk(id);
+    let updatedUserInformation = await user_information.findByPk(id, {
+      include: [{model: models.user, required: true}]
+    });
     if (data[0] === 0) {
       return res.status(200).json({
         success: false,
