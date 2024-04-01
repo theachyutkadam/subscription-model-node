@@ -96,7 +96,12 @@ self.createSubscription = async (req, res) => {
 // get all subscriptions funcation--------
 self.getAll = async (req, res) => {
   try {
-    let data = await subscription.findAll({});
+    let data = await subscription.findAll({
+      include: [
+        {model: models.user, required: true},
+        {model: models.plan, required: true}
+      ]
+    });
     return res.status(200).json({
       success: true,
       count: data.length,
@@ -114,7 +119,12 @@ self.getAll = async (req, res) => {
 self.get = async (req, res) => {
   try {
     // let id = req.params.id;
-    let data = await subscription.findByPk(req.params.id);
+    let data = await subscription.findByPk(req.params.id, {
+      include: [
+        {model: models.user, required: true},
+        {model: models.plan, required: true}
+      ]
+    });
     if (data)
       return res.status(200).json({
         success: true,
@@ -139,7 +149,12 @@ self.updateSubscription = async (req, res) => {
   try {
     let id = req.params.id;
     let data = await subscription.update(req.body, {where: {id: id}});
-    let updatedSubscription = await subscription.findByPk(id);
+    let updatedSubscription = await subscription.findByPk(id, {
+      include: [
+        {model: models.user, required: true},
+        {model: models.plan, required: true}
+      ]
+    });
 
     if (data[0] === 0) {
       return res.status(200).json({

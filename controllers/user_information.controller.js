@@ -1,4 +1,5 @@
 const { user_information, Sequelize } = require("./../models");
+const models = require('./../models');
 const Op = Sequelize.Op;
 let self = {};
 
@@ -91,7 +92,11 @@ self.createUserInformation = async (req, res) => {
 self.getAll = async (req, res) => {
   console.log('Check---user_information>');
   try {
-    let data = await user_information.findAll({});
+    let data = await user_information.findAll({
+      include: [
+        {model: models.user, required: true}
+      ]
+    });
     return res.status(200).json({
       success: true,
       count: data.length,
@@ -109,7 +114,11 @@ self.getAll = async (req, res) => {
 self.get = async (req, res) => {
   try {
     let id = req.params.id;
-    let data = await user_information.findByPk(id);
+    let data = await user_information.findByPk(id, {
+      include: [
+        {model: models.user, required: true}
+      ]
+    });
     if (data)
       return res.status(200).json({
         success: true,

@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { user, Sequelize } = require("./../models");
+const models = require('./../models');
+
 const Op = Sequelize.Op;
 let self = {};
 
@@ -140,13 +142,8 @@ self.createUser = async (req, res) => {
 // get all users funcation--------
 self.getAll = async (req, res) => {
   try {
-    console.log('Check--return association->');
     let data = await user.findAll({
-      // include: [
-      //   {
-      //     model: Roles,
-      //   }
-      // ],
+      include: [{model: models.role, required: true}]
     });
     console.log('Check--response data->', data);
     return res.status(200).json({
@@ -166,7 +163,9 @@ self.getAll = async (req, res) => {
 self.get = async (req, res) => {
   try {
     let id = req.params.id;
-    let data = await user.findByPk(id);
+    let data = await user.findByPk(id, {
+      include: [{model: models.role, required: true}]
+    });
     if (data)
       return res.status(200).json({
         success: true,
@@ -195,7 +194,10 @@ self.updateUser = async (req, res) => {
       password: await bcrypt.hash(req.body.password, 12),
     };
     let data = await user.update(user_payload, {where: {id: id}});
-    let updatedUser = await user.findByPk(id, {attributes: ['id', 'email', "role_id"]});
+    let updatedUser = await user.findByPk(id, {
+      include: {model: models.role, required: true},
+      attributes: ['id', 'email', "role_id"]
+    });
     if (data[0] === 0) {
       return res.status(200).json({
         success: false,
