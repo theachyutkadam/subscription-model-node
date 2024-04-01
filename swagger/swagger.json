@@ -730,6 +730,146 @@
           }
         }
       }
+    },
+    "/authorizations": {
+      "get": {
+        "tags": [
+          "Authorizations"
+        ],
+        "summary": "Get all authorizations",
+        "responses": {
+          "200": {
+            "description": "A list of authorizations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Authorization"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Authorizations"
+        ],
+        "summary": "Create a new authorization",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Authorization"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The newly created authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Authorization"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authorizations/{id}": {
+      "get": {
+        "tags": [
+          "Authorizations"
+        ],
+        "summary": "Get authorization by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Authorization"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Authorizations"
+        ],
+        "summary": "Update authorization by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Authorization"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Authorization"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Authorizations"
+        ],
+        "summary": "Delete authorization by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorization deleted successfully"
+          }
+        }
+      }
     }
   },
 
@@ -756,6 +896,40 @@
             "format": "password",
             "example": "12345678",
             "required": true
+          }
+        }
+      },
+      "Authorization": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "role_id": {
+            "type": "integer",
+            "nullable": false,
+            "required": true
+          },
+          "can_read": {
+            "type": "boolean",
+            "default": false,
+            "nullable": false
+          },
+          "can_write": {
+            "type": "boolean",
+            "default": false,
+            "nullable": false
+          },
+          "can_update": {
+            "type": "boolean",
+            "default": false,
+            "nullable": false
+          },
+          "can_delete": {
+            "type": "boolean",
+            "default": false,
+            "nullable": false
           }
         }
       },
@@ -821,6 +995,15 @@
             "minLength": 10,
             "maxLength": 13,
             "required": true
+          },
+          "gender": {
+            "type": "integer",
+            "required": true,
+            "enum": [
+              "male",
+              "female",
+              "transgender"
+            ]
           },
           "maritial_status": {
             "type": "integer",

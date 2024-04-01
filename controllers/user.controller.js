@@ -146,7 +146,6 @@ self.getAll = async (req, res) => {
     let data = await user.findAll({
       include: [{model: models.role, required: true}]
     });
-    console.log('Check--response data->', data);
     return res.status(200).json({
       success: true,
       count: data.length,
