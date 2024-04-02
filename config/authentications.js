@@ -13,36 +13,41 @@ module.exports = async (req, res, next) => {
   const token = authHeader.split(' ')[1];
 
   try {
-    // console.log('Ori URL-->', req.originalUrl);
-    // console.log('request-->', req);
     const url = req.originalUrl
-    // const split_url = url.split("/")
-    // console.log('Check-split_url-->', split_url);
-    // const id = req.params.id
-    // console.log('Check--params->', req.params);
-    // if(req.params.id == id) {
-    //   // split_url.pop()
-    //   // url = split_url.join('/')
-    //   url = url.replace(`/${id}`, '')
-    //   console.log('with params->', url.replace(`/${id}`, ''));
-    // } else {
-    //   console.log('not params->', url);
-    // }
+    const auth_user = jwt.verify(token, 'SECRET');
+    const user = await models.user.findOne({where: {email: auth_user.email}})
+    const authorization_data = await models.Authorization.findOne({where: {role_id: user.role_id, path: url}})
 
-    const user = jwt.verify(token, 'SECRET');
-    const user_data = await models.user.findOne({where: {email: user.email}})
-    const authorization_data = await models.Authorization.findOne({where: {role_id: user_data.role_id, path: url}})
+    req.user = auth_user;
+    checkUserStatus(user)
 
-    // Check user status
-    if (!user_data.status == "active") {
+    if(authorization_data != null){
+      checkAuthorization(authorization_data)
+    }
+    next()
+  } catch (error) {
+    res.status(401).json(
+      { status: 'fail', message: 'Unauthorized!'}
+    );
+  }
+
+  // Check user status
+  function checkUserStatus(user) {
+    console.log('Check---status>', user.status != "active");
+    if (user.status != "active") {
       return res.status(401).json({
-        message: `sorry! you are status is ${user_data.status}, Please contact with admin`
+        message: `sorry! you are status is ${user.status}, Please contact with admin`
       });
     }
+  }
 
-  // Check user access
+  function checkAuthorization(authorization_data){
+    // Check user access
+    checkUserPermissions(authorization_data)
+  }
+
+  async function checkUserPermissions(authorization_data){
     let message = `sorry! You don't have a access for this action`
-
     switch (req.method) {
       case 'GET':
         return authorization_data.can_read ? '' : res.status(401).json({message: message})
@@ -53,12 +58,5 @@ module.exports = async (req, res, next) => {
       case 'PUT':
         return authorization_data.can_read ? '' : res.status(401).json({message: message})
     }
-
-    req.user = user;
-    next();
-  } catch (error) {
-    res.status(401).json(
-      { status: 'fail', message: 'Unauthorized!'}
-    );
   }
 };
