@@ -24,9 +24,30 @@ module.exports = (sequelize, DataTypes) => {
   subscription.init({
     user_id: DataTypes.INTEGER,
     plan_id: DataTypes.INTEGER,
-    activation_date: DataTypes.DATE,
-    expired_date: DataTypes.DATE,
-    plan_price: DataTypes.FLOAT
+    activation_date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Please provide a activation_date' },
+        isDate: { msg: "Enter valid activation_date format" }
+      }
+    },
+    expired_date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Please provide a expired_date' },
+        isDate: { msg: "Enter valid expired_date format" }
+      }
+    },
+    plan_price: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Please provide a price' },
+        isFloat: { msg: 'Enter price in float format' }
+      }
+    },
   }, {
     sequelize,
     modelName: 'subscription',

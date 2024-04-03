@@ -14,7 +14,7 @@ module.exports = {
       const userInformationSeedData = {
         first_name: faker.person.firstName(),
         last_name: faker.person.lastName(),
-        contact: faker.datatype.number({ min: 1111111111, max: 9999999999 }),
+        contact: faker.number.int({ min: 1111111111, max: 9999999999 }),
         birth_date: faker.date.anytime(),
         user_id: i+1,
         gender: genders[Math.floor(Math.random()*genders.length)],
@@ -23,7 +23,7 @@ module.exports = {
         updatedAt: new Date()
       };
       userInformationsList.push(userInformationSeedData);
-      console.log('------userInformation created-----------', userInformationSeedData);
+      console.log('------userInformation created-----------', i+1);
     }
     await queryInterface.bulkInsert('user_informations', userInformationsList, {});
   },

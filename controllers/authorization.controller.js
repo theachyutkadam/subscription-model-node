@@ -1,11 +1,11 @@
-const { role, Sequelize } = require("./../models");
+const { Authorization, Sequelize } = require("../models");
 const Op = Sequelize.Op;
 let self = {};
 
 /**
-* @description Get All Roles
+* @description Get All Authorizations
 * @type GET
-* @path /api/roles
+* @path /api/authorizations
 * @param {*} req
 * @param {*} res
 * @returns JSON
@@ -13,68 +13,62 @@ let self = {};
 self.getAll = async (req, res) => { }
 
 /**
-* @description Create New Role
+* @description Create New Authorization
 * @type POST
-* @path /api/roles/
+* @path /api/authorizations/
 * @param {*} req
 * @param {*} res
 * @returns JSON
 */
-self.createRole = async (req, res) => { }
 
+self.createAuthorization = async (req, res) => { }
 /**
-* @description Get Single Role info by id
+* @description Get Single Authorization info by id
 * @type GET
-* @path /api/roles/:id
+* @path /api/authorizations/:id
 * @param {*} req
 * @param {*} res
-* @param {Number} — id — role id
+* @param {Number} — id — authorization id
 * @returns JSON
 */
+
 self.get = async (req, res) => { }
-
 /**
-* @description Update Role data
+* @description Update Authorization data
 * @type PUT
-* @path /api/roles/:id
+* @path /api/authorizations/:id
 * @param {*} req
 * @param {*} res
 * @returns JSON
 */
-self.updateRole = async (req, res) => { }
 
+self.updateAuthorization = async (req, res) => { }
 /**
-* @description Delete role with the specified id in the request
+* @description Delete authorization with the specified id in the request
 * @type DELETE
-* @path /api/roles/:id
+* @path /api/authorizations/:id
 * @param {*} req
 * @param {*} res
 * @returns JSON
 */
+
 self.delete = async (req, res) => { }
-
 /**
-* @description Delete all roles from the database
+* @description Delete all authorizations from the database
 * @type DELETE
-* @path /api/roles/:id
+* @path /api/authorizations/:id
 * @param {*} req
 * @param {*} res
 * @returns JSON
 */
-self.deleteAll = async (req, res) => { };
 
+self.deleteAll = async (req, res) => { };
 module.exports = self;
 
-// create role funcation--------
-self.createRole = async (req, res) => {
-  // if (!req.body.name) {
-  //   return res.status(400).send({
-  //     success: false,
-  //     message: "Content can not be empty!"
-  //   });
-  // }
+// create authorization funcation--------
+self.createAuthorization = async (req, res) => {
   try {
-    let data = await role.create(req.body);
+    let data = await Authorization.create(req.body);
     return res.status(201).json({
       success: true,
       data: data
@@ -89,10 +83,10 @@ self.createRole = async (req, res) => {
   }
 }
 
-// get all roles funcation--------
+// get all authorizations funcation--------
 self.getAll = async (req, res) => {
   try {
-    let data = await role.findAll({});
+    let data = await Authorization.findAll({});
     return res.status(200).json({
       success: true,
       count: data.length,
@@ -103,12 +97,11 @@ self.getAll = async (req, res) => {
   }
 }
 
-// get single role by ID funcation--------
+// get single authorization by ID funcation--------
 self.get = async (req, res) => {
-  console.log("status", role.getAttributes().status.values);
   try {
     let id = req.params.id;
-    let data = await role.findByPk(id);
+    let data = await Authorization.findByPk(id);
     if (data)
       return res.status(200).json({
         success: true,
@@ -117,7 +110,7 @@ self.get = async (req, res) => {
     else
       return res.status(400).json({
         success: false,
-        error: "No such role present",
+        error: "No such authorization present",
         data: []
       })
   } catch (error) {
@@ -125,22 +118,22 @@ self.get = async (req, res) => {
   }
 }
 
-// update role by ID funcation--------
-self.updateRole = async (req, res) => {
+// update authorization by ID funcation--------
+self.updateAuthorization = async (req, res) => {
   try {
     let id = req.params.id;
-    let data = await role.update(req.body, {where: {id: id}});
-    let updatedRole = await role.findByPk(id);
+    let data = await Authorization.update(req.body, {where: {id: id}});
+    let updatedAuthorization = await Authorization.findByPk(id);
     if (data[0] === 0) {
       return res.status(200).json({
         success: false,
-        error: "No role found with this id"
+        error: "No authorization found with this id"
       })
     }
     return res.status(200).json({
       success: true,
-      data: updatedRole,
-      message: "Role update successfully"
+      data: updatedAuthorization,
+      message: "Authorization update successfully"
     })
   } catch (error) {
     if (error.name == 'SequelizeValidationError' || error.name == 'SequelizeUniqueConstraintError') {
@@ -152,25 +145,25 @@ self.updateRole = async (req, res) => {
   }
 }
 
-// delete role by ID funcation--------
+// delete authorization by ID funcation--------
 self.delete = async (req, res) => {
   try {
     let id = req.params.id;
-    let data = await role.destroy({
+    let data = await Authorization.destroy({
       where: {
         id: id
       }
     });
-    console.log('role record--->', data);
+    console.log('authorization record--->', data);
     if (data === 1) {
       return res.status(200).json({
         success: true,
-        message: `Role with id=${id} deleted`
+        message: `Authorization with id=${id} deleted`
       })
     }
     return res.status(200).json({
       success: false,
-      message: `Role with id=${id} is not present.`
+      message: `Authorization with id=${id} is not present.`
     })
   } catch (error) {
     return res.status(200).json({
@@ -180,10 +173,10 @@ self.delete = async (req, res) => {
   }
 }
 
-// delete all roles funcation--------
+// delete all authorizations funcation--------
 self.deleteAll = async (req, res) => {
   try {
-    let data = await role.destroy({
+    let data = await Authorization.destroy({
       where: {},
       truncate: true
     });
