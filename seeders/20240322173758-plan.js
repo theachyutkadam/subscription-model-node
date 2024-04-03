@@ -20,7 +20,7 @@ module.exports = {
         updatedAt: new Date()
       };
       plansList.push(planSeedData);
-      console.log('------plan created-----------', planSeedData);
+      console.log('------plan created-----------', i+1);
     }
     await queryInterface.bulkInsert('Plans', plansList, {});
   },

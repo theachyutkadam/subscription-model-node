@@ -27,7 +27,7 @@ module.exports = {
         updatedAt: new Date()
       };
       usersList.push(userSeedData);
-      console.log('-----------------', i);
+      console.log('------user created-----------', i+1);
     }
     await queryInterface.bulkInsert('Users', usersList, {});
   },

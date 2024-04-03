@@ -21,7 +21,7 @@ module.exports = {
         updatedAt: new Date()
       };
       subscriptionsList.push(subscriptionSeedData);
-      console.log('------subscription created-----------', subscriptionSeedData);
+      console.log('------subscription created-----------', i+1);
     }
     await queryInterface.bulkInsert('Subscriptions', subscriptionsList, {});
   },
