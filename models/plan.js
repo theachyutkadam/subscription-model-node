@@ -17,15 +17,51 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   plan.init({
-    name: DataTypes.STRING,
-    price: DataTypes.FLOAT,
-    is_active: DataTypes.BOOLEAN,
-    expire_at: DataTypes.DATE,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Please provide a name' }
+      }
+    },
+    price: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Please provide a price' },
+        isFloat: { msg: 'Enter price in float format' }
+      }
+    },
+    is_active: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+      validate: {
+        notEmpty: { msg: 'Please select a status' }
+      }
+    },
+    expire_at: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Please provide a expire_at' },
+        isDate: { msg: "Enter valid date format" }
+      }
+    },
     type: {
       type:  Sequelize.ENUM('monthly', 'quarterly', 'yearly'),
-      defaultValue: "monthly"
+      allowNull: false,
+      validate: {
+        isIn: {
+          args: [['monthly', 'quarterly', 'yearly']],
+          msg: 'Please select valid type'
+        }
+      }
     },
-    description: DataTypes.TEXT
+    description: {
+      type: DataTypes.TEXT,
+      max: 200
+    }
   }, {
     sequelize,
     modelName: 'plan',

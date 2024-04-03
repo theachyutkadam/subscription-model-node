@@ -18,23 +18,33 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Authorization.init({
-    path: DataTypes.STRING,
+    path: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Please provide a path' }
+      }
+    },
     role_id: DataTypes.INTEGER,
     can_read: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: false,
+      allowNull: false
     },
     can_write: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: false,
+      allowNull: false
     },
     can_update: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: false,
+      allowNull: false
     },
     can_delete: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: false,
+      allowNull: false
     }
   }, {
     sequelize,

@@ -20,12 +20,27 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   role.init({
-    name: DataTypes.STRING,
-    // status: DataTypes.INTEGER,
-    description: DataTypes.TEXT,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Please provide a name' }
+      }
+    },
     status: {
       type:  Sequelize.ENUM('pending', 'active', 'inactive', 'deleted'),
+      validate: {
+        isIn: {
+          args: [['pending', 'active', 'inactive', 'deleted']],
+          msg: 'Please set valid status'
+        }
+      },
+      allowNull: false,
       defaultValue: "pending"
+    },
+    description: {
+      type: DataTypes.TEXT,
+      max: 200
     }
   }, {
     sequelize,

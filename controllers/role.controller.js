@@ -80,10 +80,12 @@ self.createRole = async (req, res) => {
       data: data
     })
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      error: error
-    })
+    if (error.name == 'SequelizeValidationError' || error.name == 'SequelizeUniqueConstraintError') {
+      const error_messages = error.errors.map(err => err.message)
+      return res.status(500).json({error_messages})
+    } else {
+      returnError(res, error)
+    }
   }
 }
 
@@ -97,10 +99,7 @@ self.getAll = async (req, res) => {
       data: data
     })
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error
-    })
+    returnError(res, error)
   }
 }
 
@@ -122,10 +121,7 @@ self.get = async (req, res) => {
         data: []
       })
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error
-    })
+    returnError(res, error)
   }
 }
 
@@ -147,10 +143,12 @@ self.updateRole = async (req, res) => {
       message: "Role update successfully"
     })
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error
-    })
+    if (error.name == 'SequelizeValidationError' || error.name == 'SequelizeUniqueConstraintError') {
+      const error_messages = error.errors.map(err => err.message)
+      return res.status(500).json({error_messages})
+    } else {
+      returnError(res, error)
+    }
   }
 }
 
@@ -194,9 +192,13 @@ self.deleteAll = async (req, res) => {
       data: data
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error
-    })
+    returnError(res, error)
   }
 };
+
+function returnError(res, error) {
+  res.status(500).json({
+    success: false,
+    error: error
+  })
+}

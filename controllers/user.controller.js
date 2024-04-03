@@ -127,7 +127,7 @@ self.createUser = async (req, res) => {
       const error_messages = error.errors.map(err => err.message)
       return res.status(500).json({error_messages})
     } else {
-      returnError(error)
+      returnError(res, error)
     }
   }
 }
@@ -144,7 +144,7 @@ self.getAll = async (req, res) => {
       data: data
     })
   } catch (error) {
-    returnError(error)
+    returnError(res, error)
   }
 }
 
@@ -167,7 +167,7 @@ self.get = async (req, res) => {
         data: []
       })
   } catch (error) {
-    returnError(error)
+    returnError(res, error)
   }
 }
 
@@ -196,7 +196,12 @@ self.updateUser = async (req, res) => {
       message: "User update successfully"
     })
   } catch (error) {
-    returnError(error)
+    if (error.name == 'SequelizeValidationError' || error.name == 'SequelizeUniqueConstraintError') {
+      const error_messages = error.errors.map(err => err.message)
+      return res.status(500).json({error_messages})
+    } else {
+      returnError(res, error)
+    }
   }
 }
 
@@ -220,7 +225,7 @@ self.delete = async (req, res) => {
       message: `User with id=${id} is not present.`
     })
   } catch (error) {
-    returnError(error)
+    returnError(res, error)
   }
 }
 
@@ -236,7 +241,7 @@ self.deleteAll = async (req, res) => {
       data: data
     });
   } catch (error) {
-    returnError(error)
+    returnError(res, error)
   }
 }
 
@@ -253,7 +258,7 @@ self.errorMessage = async(status, email) => {
   }
 };
 
-function returnError(error) {
+function returnError(res, error) {
   res.status(500).json({
     success: false,
     error: error
