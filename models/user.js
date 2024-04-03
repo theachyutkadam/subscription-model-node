@@ -24,9 +24,39 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   user.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    role_id: DataTypes.INTEGER,
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      // unique: { args: true, msg: 'Email is already taken'},
+      isEmail: true,
+      validate: {
+        isEmail: { msg: "Please use a correct Email format - admin@gmail.com"},
+        notEmpty: { msg: "Please provide Email"},
+        isUnique: (value, next) => {
+          user.findAll(
+            { where: { email: value }}
+          ).then((user) => {
+            if (user.length != 0)
+              next(new Error('Email address already in use!'));
+              next();
+          }).catch((onError) => console.log(onError));
+        }
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Please provide a password' }
+      }
+    },
+    role_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Please provide a role' }
+      }
+    },
     status: {
       type:  Sequelize.ENUM('pending', 'active', 'inactive', 'deleted'),
       defaultValue: "pending"

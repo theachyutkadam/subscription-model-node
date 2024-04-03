@@ -114,29 +114,21 @@ self.loginUser = async (req, res) => {
 
 // create user funcation--------
 self.createUser = async (req, res) => {
-  console.log('Check-create method-->', req.body);
-  if (!req.body.email || !req.body.password) {
-    return res.status(400).send({
-      success: false,
-      message: "Content can not be empty!"
-    });
-  }
   try {
-    const newUser = {
-      email: req.body.email,
-      role_id: req.body.role_id,
-      password: await bcrypt.hash(req.body.password, 12),
-    };
-    let data = await user.create(newUser);
+    req.body.password = req.body.password ? await bcrypt.hash(req.body.password, 12) : ''
+    let user_object = await user.create(req.body);
     return res.status(201).json({
       success: true,
-      data: data
+      data: user_object
     })
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      error: error
-    })
+    console.log('Check--error->', error);
+    if (error.name == 'SequelizeValidationError' || error.name == 'SequelizeUniqueConstraintError') {
+      const error_messages = error.errors.map(err => err.message)
+      return res.status(500).json({error_messages})
+    } else {
+      returnError(error)
+    }
   }
 }
 
@@ -152,10 +144,7 @@ self.getAll = async (req, res) => {
       data: data
     })
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error
-    })
+    returnError(error)
   }
 }
 
@@ -178,10 +167,7 @@ self.get = async (req, res) => {
         data: []
       })
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error
-    })
+    returnError(error)
   }
 }
 
@@ -210,10 +196,7 @@ self.updateUser = async (req, res) => {
       message: "User update successfully"
     })
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error
-    })
+    returnError(error)
   }
 }
 
@@ -237,10 +220,7 @@ self.delete = async (req, res) => {
       message: `User with id=${id} is not present.`
     })
   } catch (error) {
-    return res.status(200).json({
-      success: false,
-      error: error
-    })
+    returnError(error)
   }
 }
 
@@ -256,10 +236,7 @@ self.deleteAll = async (req, res) => {
       data: data
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error
-    })
+    returnError(error)
   }
 }
 
@@ -275,3 +252,10 @@ self.errorMessage = async(status, email) => {
       `Hey your status is ${status}, Admin will check as soon as posible`
   }
 };
+
+function returnError(error) {
+  res.status(500).json({
+    success: false,
+    error: error
+  })
+}
