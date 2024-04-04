@@ -160,11 +160,12 @@ self.delete = async (req, res) => {
         success: true,
         message: `Authorization with id=${id} deleted`
       })
+    } else {
+      return res.status(200).json({
+        success: false,
+        message: `Authorization with id=${id} is not present.`
+      })
     }
-    return res.status(200).json({
-      success: false,
-      message: `Authorization with id=${id} is not present.`
-    })
   } catch (error) {
     return res.status(200).json({
       success: false,

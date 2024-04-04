@@ -94,7 +94,9 @@ self.loginUser = async (req, res) => {
     if(!user_data){
       res.status(401).json({ message: 'User not found' });
     }else if (user_data.status != "active") {
-      res.status(401).json({ message: `sorry! you are status is ${user_data.status}, Please contact with admin`});
+      res.status(401).json({
+        message: `sorry! you are status is ${user_data.status}, Please contact with admin`
+      });
     }else if (await bcrypt.compare(req.body.password, user_data['password'])) {
       const tokenPayload = {email: user_data['email']};
       res.json(
@@ -219,11 +221,12 @@ self.delete = async (req, res) => {
         success: true,
         message: `User with id=${id} deleted`
       })
+    } else {
+      return res.status(200).json({
+        success: false,
+        message: `User with id=${id} is not present.`
+      })
     }
-    return res.status(200).json({
-      success: false,
-      message: `User with id=${id} is not present.`
-    })
   } catch (error) {
     returnError(res, error)
   }

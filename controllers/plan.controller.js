@@ -135,12 +135,13 @@ self.updatePlan = async (req, res) => {
         success: false,
         error: "No plan found with this id"
       })
+    } else {
+      return res.status(200).json({
+        success: true,
+        data: updatedPlan,
+        message: "Plan update successfully"
+      })
     }
-    return res.status(200).json({
-      success: true,
-      data: updatedPlan,
-      message: "Plan update successfully"
-    })
   } catch (error) {
     if (error.name == 'SequelizeValidationError' || error.name == 'SequelizeUniqueConstraintError') {
       const error_messages = error.errors.map(err => err.message)
