@@ -3,13 +3,13 @@ const app = require('../index.js')
 const { plan } = require("../models/index.js");
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTcxMjIyMDkzOX0.5QOhUCfqFaVHeoCLJY580181W9SxWL028qu01RU4WYs"
 
-var tomorrow = new Date();
+var today = new Date();
 
 const newPlanPayload = {
   name: "test cases",
   price: "151.25",
   is_active: false,
-  expire_at: tomorrow.setDate(tomorrow.getDate()+3),
+  expire_at: today.setDate(today.getDate()+3),
   type: "monthly",
   description: "It's a official plan",
 }
@@ -17,7 +17,7 @@ const updatePlanPayload = {
   name: "test cases plan for update",
   price: "251.51",
   is_active: true,
-  expire_at: tomorrow.setDate(tomorrow.getDate()+10),
+  expire_at: today.setDate(today.getDate()+10),
   type: "monthly",
   description: "It's a official plan and now it;s updated plan",
 }
@@ -69,14 +69,14 @@ describe("Success Plans APIs", () => {
   })
 
   it('should update a existing plan', async () => {
-    const res = await request(app).put('/api/plans/11').send(updatePlanPayload).set('Authorization',  `Bearer ${token}`)
+    const res = await request(app).put('/api/plans/10').send(updatePlanPayload).set('Authorization',  `Bearer ${token}`)
     expect(res.status).toEqual(200)
     expect(res.body.success).toBe(true);
     expect(res.body.data.email).toEqual(updatePlanPayload.email)
   })
 
   it('should delete a existing plan', async () => {
-    const res = await request(app).delete('/api/plans/11').set('Authorization',  `Bearer ${token}`)
+    const res = await request(app).delete('/api/plans/10').set('Authorization',  `Bearer ${token}`)
     expect(res.status).toEqual(200)
     expect(res.body.success).toBe(true);
   })

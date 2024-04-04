@@ -164,7 +164,6 @@ self.delete = async (req, res) => {
         id: id
       }
     });
-    console.log('user_information record--->', data);
     if (data === 1) {
       return res.status(200).json({
         success: true,
