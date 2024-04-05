@@ -27,20 +27,11 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      // unique: { args: true, msg: 'Email is already taken'},
+      unique: true,
       isEmail: true,
       validate: {
         isEmail: { msg: "Please use a correct Email format - admin@gmail.com"},
-        notEmpty: { msg: "Please provide Email"},
-        isUnique: (value, next) => {
-          user.findAll(
-            { where: { email: value }}
-          ).then((user) => {
-            if (user.length != 0)
-              next(new Error('Email address already in use!'));
-              next();
-          }).catch((onError) => console.log(onError));
-        }
+        notEmpty: { msg: "Please provide Email"}
       }
     },
     password: {
@@ -65,7 +56,13 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'user',
     paranoid: true,
-    deletedAt: 'deletedAt'
+    deletedAt: 'deletedAt',
+    indexes: [
+      {
+        unique: true,
+        fields: ["email"]
+      }
+    ]
   });
 
   return user;

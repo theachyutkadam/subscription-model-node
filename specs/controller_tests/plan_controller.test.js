@@ -1,6 +1,6 @@
 const request = require('supertest')
-const app = require('../index.js')
-const { plan } = require("../models/index.js");
+const app = require('../../index.js')
+const { plan } = require("../../models/index.js");
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTcxMjIyMDkzOX0.5QOhUCfqFaVHeoCLJY580181W9SxWL028qu01RU4WYs"
 
 var today = new Date();

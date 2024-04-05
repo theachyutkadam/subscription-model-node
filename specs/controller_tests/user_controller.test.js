@@ -1,6 +1,6 @@
 const request = require('supertest')
-const app = require('../index.js')
-const { user } = require("../models/index.js");
+const app = require('../../index.js')
+const { user } = require("../../models/index.js");
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTcxMjIyMDkzOX0.5QOhUCfqFaVHeoCLJY580181W9SxWL028qu01RU4WYs"
 
 const newUserPayload = {
@@ -42,6 +42,12 @@ describe("Check authentication", () => {
 })
 
 describe("Success Users APIs", () => {
+  it('Login user', async () => {
+    const res = await request(app).post('/api/users/login').send({email: 'admin@gmail.com', password: '12345678'})
+    expect(res.status).toEqual(200)
+    expect(res.body.message).toEqual('User Logged In!')
+  })
+
   it('should show all users', async () => {
     const res = await request(app).get('/api/users').set('Authorization',  `Bearer ${token}`)
     expect(res.status).toEqual(200)
