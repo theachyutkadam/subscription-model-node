@@ -3,12 +3,8 @@ const {Model} = require('sequelize');
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
+  var today = new Date();
   class plan extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       // define association here
       plan.hasMany(models.subscription, {
@@ -45,7 +41,16 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: { msg: 'Please provide a expire_at' },
-        isDate: { msg: "Enter valid date format" }
+        isDate: { msg: "Enter valid date format" },
+        // isAfter: {
+        //   args: today.setDate(today.getDate()+30),
+        //   msg: "Date is related to plan"
+        // }
+        // isExpireAtMatchWithType(value) {
+        //   if (value > today.setDate(today.getDate()+30) && this.type == "monthly") {
+        //     throw new Error('You select a monthly plan and date should under 30 day.');
+        //   }
+        // }
       }
     },
     type: {
