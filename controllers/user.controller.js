@@ -124,11 +124,11 @@ self.createUser = async (req, res) => {
     const mailPayload = await setup_email_payload(req.body.email)
 
     setup_transporter_details().sendMail(mailPayload, function (err, info) {
-      err ? console.log('mail errror', err) : console.log('mail info', info)
+      err ? returnError(res, err) : console.log('mail info', info)
       return res.status(201).json({
         success: true,
         data: user_object,
-        message_id: info ? info.messageId : ''
+        message_id: info.messageId
       })
     });
   } catch (error) {
@@ -277,11 +277,11 @@ function returnError(res, error) {
 
 async function setup_email_payload(email) {
   mailPayload = {
-    from: 'Achyutam App',
+    from: 'Achyutam App<achyutkadam27@gmail.com>',
     to: email,
     subject: 'Welcome, for onboarding process',
     // text: `Hello ${email} welcome to subscription module application, we are check your details as soon as possible.`,
-    html: `<b>Hey there! </b><br>Hello ${email} welcome to subscription module application, Click here to activate your account.<br/>`
+    html: `<b>Hey there! </b><br>Hello ${email} welcome to subscription module application, Click here to activate your account.<br/> ${new Date()}`
   }
   return mailPayload
   // this.transporter = await setup_transporter_details()
