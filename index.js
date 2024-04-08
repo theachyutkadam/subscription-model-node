@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const logger = require('morgan');
@@ -6,7 +7,7 @@ const logger = require('morgan');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger.json');
 
-var corsOptions = {origin: "http://localhost:8081"};
+var corsOptions = { origin: "http://localhost:8081" };
 
 const app = express();
 app.use(cors(corsOptions));
