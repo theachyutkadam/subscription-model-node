@@ -31,6 +31,17 @@ self.getAll = async (req, res) => { }
 self.loginUser = async (req, res) => { }
 
 /**
+ * @description Activation process with encrypted email token
+ * @type GET
+ * @path /api/users/activation
+ * @param {*} req
+ * @param {*} res
+ * @param {Number} — token — user token
+ * @returns JSON
+*/
+self.activateUser = async (req, res) => { }
+
+/**
 * @description Create New User
 * @type POST
 * @path /api/users/
@@ -255,18 +266,38 @@ self.deleteAll = async (req, res) => {
   }
 }
 
-self.errorMessage = async(status, email) => {
-  switch (status) {
-    case 'inactive':
-      `sorry! ${email} your status is ${status}, Please contact with admin`
-      break;
-    case 'deleted':
-      `Hello ${email} your a ${status} user, create new account`
-      break;
-    case 'pending':
-      `Hey your status is ${status}, Admin will check as soon as posible`
+// self.errorMessage = async(status, email) => {
+//   switch (status) {
+//     case 'inactive':
+//       `sorry! ${email} your status is ${status}, Please contact with admin`
+//       break;
+//     case 'deleted':
+//       `Hello ${email} your a ${status} user, create new account`
+//       break;
+//     case 'pending':
+//       `Hey your status is ${status}, Admin will check as soon as posible`
+//   }
+// };
+
+self.activateUser = async(req, res) => {
+  try {
+    let email = jwt.verify(req.params.token, 'SECRET')
+    let user_object = await user.findOne({where: {email: email}});
+    if (user_object.status == 'active'){
+      return res.status(200).json({ success: true, message: "User already activated" })
+    }
+    let activated_data = await user.update({status: 'active'}, {where: {email: email}});
+
+    if (!activated_data[0] == 0) {
+      return res.status(200).json({
+        success: true,
+        error: "User activated successfully"
+      })
+    }
+  } catch (error) {
+    returnError(res, error)
   }
-};
+}
 
 function returnError(res, error) {
   res.status(500).json({
@@ -276,12 +307,13 @@ function returnError(res, error) {
 }
 
 async function setup_email_payload(email) {
+  link = `http://localhost:${process.env.PORT}/api/users/activation/${jwt.sign(email, 'SECRET')}`
   mailPayload = {
-    from: 'Achyutam App<achyutkadam27@gmail.com>',
+    from: 'Netflix Subscription App<achyutkadam27@gmail.com>',
     to: email,
     subject: 'Welcome, for onboarding process',
     // text: `Hello ${email} welcome to subscription module application, we are check your details as soon as possible.`,
-    html: `<b>Hey there! </b><br>Hello ${email} welcome to subscription module application, Click here to activate your account.<br/> ${new Date()}`
+    html: `<b>Hey there! </b><br>Hello ${email} welcome to subscription module application, <a href=${link}>Click here to activate your account</a>.<br/> ${new Date()}`
   }
   return mailPayload
   // this.transporter = await setup_transporter_details()
