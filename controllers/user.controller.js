@@ -1,7 +1,9 @@
+require('dotenv').config()
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const email_credentials = require(__dirname + '/../config/config.json')['auth'];
+// const email_credentials = require(__dirname + '/../config/config.json')['auth'];
 const { user, Sequelize } = require("./../models");
 const models = require('./../models');
 
@@ -119,14 +121,17 @@ self.createUser = async (req, res) => {
   try {
     req.body.password = req.body.password ? await bcrypt.hash(req.body.password, 12) : ''
     let user_object = await user.create(req.body);
-    await send_activation_email(req.body.email)
-    return res.status(201).json({
-      success: true,
-      data: user_object,
-      // message_id: message_id
-    })
+    const mailPayload = await setup_email_payload(req.body.email)
+
+    setup_transporter_details().sendMail(mailPayload, function (err, info) {
+      err ? console.log('mail errror', err) : console.log('mail info', info)
+      return res.status(201).json({
+        success: true,
+        data: user_object,
+        message_id: info ? info.messageId : ''
+      })
+    });
   } catch (error) {
-    console.log('Check--error->', error);
     if (error.name == 'SequelizeValidationError' || error.name == 'SequelizeUniqueConstraintError') {
       const error_messages = error.errors.map(err => err.message)
       return res.status(500).json({error_messages})
@@ -270,34 +275,28 @@ function returnError(res, error) {
   })
 }
 
-function send_activation_email(email) {
-  const mailPayload = {
-    from: 'youremail@gmail.com',
+async function setup_email_payload(email) {
+  mailPayload = {
+    from: 'Achyutam App',
     to: email,
     subject: 'Welcome, for onboarding process',
-    text: `Hello ${email} welcome to subscription module application, we are check your details as soon as possible.`,
-    html: '<b>Hey there! </b><br> This is our first message sent with Nodemailer<br/>',
+    // text: `Hello ${email} welcome to subscription module application, we are check your details as soon as possible.`,
+    html: `<b>Hey there! </b><br>Hello ${email} welcome to subscription module application, Click here to activate your account.<br/>`
   }
-  // transporter.sendMail(mailPayload, function (err, info) {
-  //   err ? console.log(err) : console.log(info)
-  // });
-  create_transporter().sendMail(mailPayload, function (err, info) {
-    err ? console.log('mail errror', err) : console.log('mail info', info)
-    return info.messageId
-  });
+  return mailPayload
+  // this.transporter = await setup_transporter_details()
 }
 
-function create_transporter() {
+function setup_transporter_details() {
   // create reusable transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({
     port: 465,               // true for 465, false for other ports
     host: "smtp.gmail.com",
     auth: {
-      user: email_credentials.email,
-      pass: email_credentials.pass
+      user: process.env.EMAIL,
+      pass: process.env.PASS
     },
     secure: true
   });
-  console.log('Check-email-->', email_credentials.email);
   return transporter
 }
