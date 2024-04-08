@@ -5,7 +5,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Authorizations', [
       {
-        path: '/roles',
+        path: 'roles',
         role_id: 1,
         can_read: true,
         can_write: true,
@@ -15,7 +15,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        path: '/users',
+        path: 'users',
         role_id: 1,
         can_read: true,
         can_write: true,
@@ -25,7 +25,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        path: '/plans',
+        path: 'plans',
         role_id: 1,
         can_read: true,
         can_write: true,
@@ -35,7 +35,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        path: '/subscriptions',
+        path: 'subscriptions',
         role_id: 1,
         can_read: true,
         can_write: true,
@@ -45,7 +45,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        path: '/user_informations',
+        path: 'user_informations',
         role_id: 1,
         can_read: true,
         can_write: true,
@@ -55,7 +55,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        path: '/roles',
+        path: 'roles',
         role_id: 2,
         can_read: true,
         can_write: false,
@@ -65,7 +65,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        path: '/users',
+        path: 'users',
         role_id: 2,
         can_read: true,
         can_write: true,
@@ -75,7 +75,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        path: '/plans',
+        path: 'plans',
         role_id: 2,
         can_read: true,
         can_write: true,
@@ -85,7 +85,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        path: '/subscriptions',
+        path: 'subscriptions',
         role_id: 2,
         can_read: false,
         can_write: false,
@@ -95,7 +95,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        path: '/user_informations',
+        path: 'user_informations',
         role_id: 2,
         can_read: true,
         can_write: true,

@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const logger = require('morgan');
 
 // import swagger ui module and swagger json file
 const swaggerUi = require('swagger-ui-express');
@@ -10,6 +11,7 @@ var corsOptions = {origin: "http://localhost:8081"};
 const app = express();
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(logger('dev'))
 app.use(express.urlencoded({ extended: true }));
 
 const roles = require('./routes/role.routes');
@@ -35,8 +37,8 @@ app.get("/", (req, res) => {
 // add route for swagger document API
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
+module.exports = app

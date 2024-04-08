@@ -164,17 +164,17 @@ self.delete = async (req, res) => {
         id: id
       }
     });
-    console.log('user_information record--->', data);
     if (data === 1) {
       return res.status(200).json({
         success: true,
         message: `UserInformation with id=${id} deleted`
       })
+    } else {
+      return res.status(200).json({
+        success: false,
+        message: `UserInformation with id=${id} is not present.`
+      })
     }
-    return res.status(200).json({
-      success: false,
-      message: `UserInformation with id=${id} is not present.`
-    })
   } catch (error) {
     return res.status(200).json({
       success: false,

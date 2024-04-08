@@ -46,7 +46,10 @@ module.exports = {
       }
     },
     {
-      paranoid: true
+      paranoid: true,
+      uniqueKeys: {
+        actions_unique: { fields: ['email'] }
+      }
     });
   },
   async down(queryInterface, Sequelize) {
