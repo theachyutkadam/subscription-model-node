@@ -4,6 +4,7 @@ const router = require('express').Router();
 
 router.post('/login', user.loginUser);
 router.post('/', user.createUser);
+router.get('/activation/:token', user.activateUser);
 
 router.get('/', auth, user.getAll);
 router.get('/:id', auth, user.get);
