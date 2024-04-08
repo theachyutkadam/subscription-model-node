@@ -1,12 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const logger = require('morgan');
+var nodemailer = require('nodemailer');
+// const email_credentials = require(__dirname + '/config/config.json')['auth'];
 
 // import swagger ui module and swagger json file
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger.json');
 
-var corsOptions = {origin: "http://localhost:8081"};
+var corsOptions = { origin: "http://localhost:8081" };
 
 const app = express();
 app.use(cors(corsOptions));

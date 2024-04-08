@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
+const nodemailer = require('nodemailer');
+const email_credentials = require(__dirname + '/../config/config.json')['auth'];
 const { user, Sequelize } = require("./../models");
 const models = require('./../models');
 
@@ -118,9 +119,11 @@ self.createUser = async (req, res) => {
   try {
     req.body.password = req.body.password ? await bcrypt.hash(req.body.password, 12) : ''
     let user_object = await user.create(req.body);
+    await send_activation_email(req.body.email)
     return res.status(201).json({
       success: true,
-      data: user_object
+      data: user_object,
+      // message_id: message_id
     })
   } catch (error) {
     console.log('Check--error->', error);
@@ -265,4 +268,36 @@ function returnError(res, error) {
     success: false,
     error: error
   })
+}
+
+function send_activation_email(email) {
+  const mailPayload = {
+    from: 'youremail@gmail.com',
+    to: email,
+    subject: 'Welcome, for onboarding process',
+    text: `Hello ${email} welcome to subscription module application, we are check your details as soon as possible.`,
+    html: '<b>Hey there! </b><br> This is our first message sent with Nodemailer<br/>',
+  }
+  // transporter.sendMail(mailPayload, function (err, info) {
+  //   err ? console.log(err) : console.log(info)
+  // });
+  create_transporter().sendMail(mailPayload, function (err, info) {
+    err ? console.log('mail errror', err) : console.log('mail info', info)
+    return info.messageId
+  });
+}
+
+function create_transporter() {
+  // create reusable transporter object using the default SMTP transport
+  const transporter = nodemailer.createTransport({
+    port: 465,               // true for 465, false for other ports
+    host: "smtp.gmail.com",
+    auth: {
+      user: email_credentials.email,
+      pass: email_credentials.pass
+    },
+    secure: true
+  });
+  console.log('Check-email-->', email_credentials.email);
+  return transporter
 }
