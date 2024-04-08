@@ -950,8 +950,7 @@
             "enum": ["pending", "active", "block", "deleted"]
           },
           "description": {
-            "type": "text",
-            "maximum": 300
+            "type": "text"
           }
         }
       },
