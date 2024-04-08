@@ -14,6 +14,11 @@ Installation-
 - ```npm init -y```
 - ```npm install express mysql2 sequelize swagger-ui-express dotenv```
 
+*NodeJS:*
+ We’re going to use this to run JavaScript code on the server. I’ve decided to use the latest version of Node, v12.16.3 at the time of writing.
+*Express:* As per their website, Express is a “Fast, unopinionated, minimalist web framework for Node.js”.
+*Nodemailer:* Nodemailer is a single module with zero dependencies for Node.js, designed for sending emails.
+
 **Create a project structure like this.**
 - src
   - models
