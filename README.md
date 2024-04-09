@@ -43,7 +43,6 @@ In NodeJS many ORMs (Object Relational Mapper) are available. See the following 
 - https://adevait.com/nodejs/how-to-implement-jwt-authentication-on-node
 
 *Create a User Subscription model*
-
 Use the following commands for create model, migration files, controllers, seed files.
 
   - sequelize db:migrate                        Run pending migrations
