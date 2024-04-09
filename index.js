@@ -6,7 +6,6 @@ const logger = require('morgan');
 // import swagger ui module and swagger json file
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger.json');
-
 var corsOptions = { origin: "http://localhost:8081" };
 
 const app = express();
