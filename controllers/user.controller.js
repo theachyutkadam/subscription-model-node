@@ -312,7 +312,7 @@ async function setup_email_payload(email) {
     from: 'Netflix Subscription App<achyutkadam27@gmail.com>',
     to: email,
     subject: 'Welcome, for onboarding process',
-    // text: `Hello ${email} welcome to subscription module application, we are check your details as soon as possible.`,
+    text: `Hello ${email} welcome to subscription module application, we are check your details as soon as possible.`,
     html: `<b>Hey there! </b><br>Hello ${email} welcome to subscription module application, <a href=${link}>Click here to activate your account</a>.<br/> ${new Date()}`
   }
   return mailPayload
