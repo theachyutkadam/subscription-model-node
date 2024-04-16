@@ -1,5 +1,15 @@
+**Installation/Setup**
+1. install Node
+2. install MySQL
+ 
+*run the following command to start the server.*
+   1. npm install
+   2. sequelize-cli db:create
+   3. sequelize-cli db:migrate
+   4. sequelize-cli db:seed:all
+   5. npm run dev - ```for start the server```
+   6. npm run test -```for executing test cases```
 
-What is Node JS?
 
 **What Can Node.js Do?**
  - Node.js can generate dynamic page content
