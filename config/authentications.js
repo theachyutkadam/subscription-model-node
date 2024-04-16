@@ -18,19 +18,21 @@ module.exports = async (req, res, next) => {
 
     const auth_user = jwt.verify(token, 'SECRET');
     const user = await models.user.findOne({where: {email: auth_user.email}})
-    const authorization_data = await models.Authorization.findOne({where: {role_id: user.role_id, path: url}})
-
     if (user.status != "active") {
       return res.status(401).json({
         message: `sorry! you are status is ${user.status}, Please contact with admin`
       });
-    } else if(authorization_data != null || req.params.id){
-      await checkUserPermissions(authorization_data)
     } else {
-      req.user = auth_user;
-      next()
+      const authorization_data = await models.Authorization.findOne({where: {role_id: user.role_id, path: url}})
+      if(authorization_data != null || req.params.id){
+        await checkUserPermissions(authorization_data)
+        req.user = auth_user;
+        next()
+      }
     }
-
+    // console.log('end of auth--->');
+    // req.user = auth_user;
+    // next()
   } catch (error) {
     console.log('Check--center error->', error);
     res.status(401).json(
@@ -41,16 +43,16 @@ module.exports = async (req, res, next) => {
   function checkUserPermissions(authorization_data){
     let message = `sorry! You don't have a access for this action`
     if (req.method == 'GET'){
-      return authorization_data.can_read ? '' : res.status(401).json({message: message})
+      return authorization_data.can_read ? '' : res.status(403).json({ status: false, message: message})
     }
     if (req.method == 'DELETE'){
-      return authorization_data.can_read ? '' : res.status(401).json({message: message})
+      return authorization_data.can_delete ? '' : res.status(403).json({ status: false, message: message})
     }
     if (req.method == 'POST'){
-      return authorization_data.can_read ? '' : res.status(401).json({message: message})
+      return authorization_data.can_write ? '' : res.status(403).json({ status: false, message: message})
     }
     if (req.method == 'PUT'){
-      return authorization_data.can_read ? '' : res.status(401).json({message: message})
+      return authorization_data.can_update ? '' : res.status(403).json({ status: false, message: message})
     }
   }
 };

@@ -888,7 +888,7 @@
           "email": {
             "type": "string",
             "format": "email",
-            "example": "admin@gmail.com",
+            "example": "admin@mailinator.com",
             "required": true
           },
           "password": {
@@ -960,16 +960,19 @@
           "email": {
             "type": "string",
             "required": true,
-            "format": "email"
+            "format": "email",
+            "example": "admin@mailinator.com"
           },
           "password": {
             "type": "string",
             "required": true,
-            "format": "password "
+            "format": "password",
+            "example": "12345678"
           },
           "role_id": {
             "type": "integer",
-            "required": true
+            "required": true,
+            "example": 2
           }
         }
       },

@@ -67,12 +67,6 @@ module.exports = self;
 
 // create role funcation--------
 self.createRole = async (req, res) => {
-  // if (!req.body.name) {
-  //   return res.status(400).send({
-  //     success: false,
-  //     message: "Content can not be empty!"
-  //   });
-  // }
   try {
     let data = await role.create(req.body);
     return res.status(201).json({
