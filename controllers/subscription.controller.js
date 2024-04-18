@@ -1,8 +1,12 @@
 const { subscription, Sequelize } = require("./../models");
 const models = require('./../models');
-
 const Op = Sequelize.Op;
 let self = {};
+// const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+require('dotenv').config()
+const Razorpay = require('razorpay')
 
 /**
 * @description Get All Subscriptions
@@ -12,7 +16,6 @@ let self = {};
 * @param {*} res
 * @returns JSON
 */self.getAll = async (req, res) => { }
-
 
 /**
 * @description Create New Subscription
@@ -70,25 +73,28 @@ module.exports = self;
 // create subscription funcation--------
 self.createSubscription = async (req, res) => {
   let plan = await models.plan.findByPk(req.body.plan_id);
-
-  const subscriptionPayload = {
-    activation_date: req.body.activation_date,
-    expired_date: req.body.expired_date,
-    plan_id: req.body.plan_id,
-    user_id: req.body.user_id,
-    plan_price: plan.price
-  };
+  req.body.plan_price = plan.price
 
   try {
-    let data = await subscription.create(subscriptionPayload);
+    let data = await subscription.create(req.body);
+
+    console.log('Check--**************************->');
+    const payment_response = await do_payment(req.body)
+    console.log('Check--->', payment_response);
+    console.log('Check--**************************->');
+
     return res.status(201).json({
       success: true,
-      data: data
+      data: data,
+      order_id: payment_response.id,
+      currency: payment_response.currency,
+      amount: payment_response.amount,
+
     })
   } catch (error) {
     if (error.name == 'SequelizeValidationError' || error.name == 'SequelizeUniqueConstraintError') {
       const error_messages = error.errors.map(err => err.message)
-      return res.status(500).json({error_messages})
+      return res.status(500).json({ error_messages })
     } else {
       returnError(res, error)
     }
@@ -100,8 +106,8 @@ self.getAll = async (req, res) => {
   try {
     let data = await subscription.findAll({
       include: [
-        {model: models.user, required: true},
-        {model: models.plan, required: true}
+        { model: models.user, required: true },
+        { model: models.plan, required: true }
       ]
     });
     return res.status(200).json({
@@ -120,8 +126,8 @@ self.get = async (req, res) => {
     // let id = req.params.id;
     let data = await subscription.findByPk(req.params.id, {
       include: [
-        {model: models.user, required: true},
-        {model: models.plan, required: true}
+        { model: models.user, required: true },
+        { model: models.plan, required: true }
       ]
     });
     if (data)
@@ -144,11 +150,11 @@ self.get = async (req, res) => {
 self.updateSubscription = async (req, res) => {
   try {
     let id = req.params.id;
-    let data = await subscription.update(req.body, {where: {id: id}});
+    let data = await subscription.update(req.body, { where: { id: id } });
     let updatedSubscription = await subscription.findByPk(id, {
       include: [
-        {model: models.user, required: true},
-        {model: models.plan, required: true}
+        { model: models.user, required: true },
+        { model: models.plan, required: true }
       ]
     });
 
@@ -166,7 +172,7 @@ self.updateSubscription = async (req, res) => {
   } catch (error) {
     if (error.name == 'SequelizeValidationError' || error.name == 'SequelizeUniqueConstraintError') {
       const error_messages = error.errors.map(err => err.message)
-      return res.status(500).json({error_messages})
+      return res.status(500).json({ error_messages })
     } else {
       returnError(res, error)
     }
@@ -222,4 +228,28 @@ function returnError(res, error) {
     success: false,
     error: error
   })
+}
+
+async function do_payment(data) {
+  const razorpay = new Razorpay({
+    key_id: process.env.KEY_ID,
+    key_secret: process.env.KEY_SECRET
+  })
+
+  // setting up options for razorpay order.
+  const options = {
+    amount: Math.floor(data.plan_price),
+    currency: 'INR',
+    receipt: new Date(),
+    payment_capture: 1
+  };
+  try {
+    const response = await razorpay.orders.create(options)
+    // if (response.error){
+    //   return res.status(500).json({message: response.error.description })
+    // }
+    return response
+  } catch (err) {
+    res.status(400).send('Not able to create subscription. Please try again!');
+  }
 }
