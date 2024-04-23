@@ -9,7 +9,8 @@
    4. sequelize-cli db:seed:all
    5. npm run dev - ```for start the server```
    6. npm run test -```for executing test cases```
-
+   7. [Click here to start the Swagger UI](http://localhost:8080/api-docs/)
+   8. ```http://localhost:8080/api-docs/```
 
 **What Can Node.js Do?**
  - Node.js can generate dynamic page content
