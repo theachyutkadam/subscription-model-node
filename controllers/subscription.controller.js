@@ -79,7 +79,7 @@ self.createSubscription = async (req, res) => {
     let data = await subscription.create(req.body);
 
     console.log('Check--**************************->');
-    const payment_response = await do_payment(req.body)
+    const payment_response = await order_payment(req.body)
     console.log('Check--->', payment_response);
     console.log('Check--**************************->');
 
@@ -230,7 +230,7 @@ function returnError(res, error) {
   })
 }
 
-async function do_payment(data) {
+async function order_payment(data) {
   const razorpay = new Razorpay({
     key_id: process.env.KEY_ID,
     key_secret: process.env.KEY_SECRET
@@ -240,16 +240,29 @@ async function do_payment(data) {
   const options = {
     amount: Math.floor(data.plan_price),
     currency: 'INR',
-    receipt: new Date(),
-    payment_capture: 1
+    receipt: Math.random().toString(16).slice(2),
+    payment_capture: true
   };
   try {
     const response = await razorpay.orders.create(options)
-    // if (response.error){
-    //   return res.status(500).json({message: response.error.description })
-    // }
+    // await subscription_payment(data)
     return response
   } catch (err) {
     res.status(400).send('Not able to create subscription. Please try again!');
   }
+}
+
+async function subscription_payment(data) {
+  // To create recurring subscription
+  const subscriptionObject = {
+    plan_id: data.plan_id,
+    total_count: 60,
+    quantity: 1,
+    customer_notify: 1,
+    notes,
+  }
+  console.log('Check-1111111111111111111111-->');
+  const subscription = await rzp.subscriptions.create(subscriptionObject)
+  console.log('subscription--->', subscription);
+  console.log('Check-1111111111111111111111-->');
 }

@@ -19,7 +19,8 @@ module.exports = async (req, res, next) => {
     const auth_user = jwt.verify(token, 'SECRET');
     const user = await models.user.findOne({where: {email: auth_user.email}})
     if (user.status != "active") {
-      return res.status(401).json({
+      return res.send(401).json({
+        status: 'fail',
         message: `sorry! you are status is ${user.status}, Please contact with admin`
       });
     } else {

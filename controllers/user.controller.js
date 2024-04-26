@@ -309,7 +309,7 @@ function returnError(res, error) {
 async function setup_email_payload(email) {
   link = `http://localhost:${process.env.PORT}/api/users/activation/${jwt.sign(email, 'SECRET')}`
   mailPayload = {
-    from: 'Netflix Subscription App<achyutkadam27@gmail.com>',
+    from: 'Subscription App<achyutkadam27@gmail.com>',
     to: email,
     subject: 'Welcome, for onboarding process',
     text: `Hello ${email} welcome to subscription module application, we are check your details as soon as possible.`,
