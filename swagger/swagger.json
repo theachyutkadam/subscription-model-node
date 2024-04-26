@@ -41,6 +41,34 @@
         }
       }
     },
+    "/users/forgot_password": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Forgot password",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPassword"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Forgot password link send on email",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForgotPassword"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/roles": {
       "get": {
         "tags": [
@@ -895,6 +923,17 @@
             "type": "string",
             "format": "password",
             "example": "12345678",
+            "required": true
+          }
+        }
+      },
+      "ForgotPassword": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "admin@mailinator.com",
             "required": true
           }
         }
