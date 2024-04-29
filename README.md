@@ -1,7 +1,7 @@
 **Installation/Setup**
 1. install Node
 2. install MySQL
- 
+
 *run the following command to start the server.*
    1. npm install
    2. sequelize-cli db:create
