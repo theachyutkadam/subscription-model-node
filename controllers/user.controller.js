@@ -22,13 +22,33 @@ self.getAll = async (req, res) => { }
 
 /**
  * @description Authentication process with username and password
- * @type GET
+ * @type POST
  * @path /api/users/login
  * @param {*} req
  * @param {*} res
  * @returns JSON
 */
 self.loginUser = async (req, res) => { }
+
+/**
+ * @description Update user password
+ * @type POST
+ * @path /api/users/update_password
+ * @param {*} req
+ * @param {*} res
+ * @returns JSON
+*/
+self.updatePassword = async (req, res) => { }
+
+/**
+* @description Send a email for update passowrd with forgot password link
+* @type POST
+* @path /api/users/forgot_password
+* @param {*} req
+* @param {*} res
+* @returns JSON
+*/
+self.sendForgotPasswordLink = async (req, res) => { }
 
 /**
  * @description Activation process with encrypted email token
@@ -97,19 +117,15 @@ module.exports = self;
 // create user funcation--------
 self.loginUser = async (req, res) => {
   if (!req.body.email || !req.body.password) {
-    return res.status(400).send({
-      success: false,
-      message: "Content can not be empty!"
-    });
+    returnTrueResponse(res, 400, false, "Content can not be empty!")
   }
   try {
     const user_data = await user.findOne({where: {email: req.body.email}});
     if(!user_data){
-      res.status(401).json({ message: 'User not found' });
+      returnTrueResponse(res, 401, false, 'User not found')
     }else if (user_data.status != "active") {
-      res.status(401).json({
-        message: `sorry! you are status is ${user_data.status}, Please contact with admin`
-      });
+      returnTrueResponse(res, 401, false, `sorry! you are status is ${user_data.status}, Please contact with admin`)
+
     }else if (await bcrypt.compare(req.body.password, user_data['password'])) {
       const tokenPayload = {email: user_data['email']};
       res.json(
@@ -120,10 +136,10 @@ self.loginUser = async (req, res) => {
         }
       );
     } else {
-      res.status(401).json({ message: 'Invalid credentials' });
+      returnTrueResponse(res, 401, false, 'Invalid credentials')
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    returnTrueResponse(res, 500, false, error.message)
   }
 }
 
@@ -132,10 +148,10 @@ self.createUser = async (req, res) => {
   try {
     req.body.password = req.body.password ? await bcrypt.hash(req.body.password, 12) : ''
     let user_object = await user.create(req.body);
-    const mailPayload = await setup_email_payload(req.body.email)
+    const mailPayload = await create_user_email_payload(req.body.email)
 
     setup_transporter_details().sendMail(mailPayload, function (err, info) {
-      err ? returnError(res, err) : console.log('mail info', info)
+      err ? returnFalseResponse(res, false, err) : console.log('mail info', info)
       return res.status(201).json({
         success: true,
         data: user_object,
@@ -145,9 +161,9 @@ self.createUser = async (req, res) => {
   } catch (error) {
     if (error.name == 'SequelizeValidationError' || error.name == 'SequelizeUniqueConstraintError') {
       const error_messages = error.errors.map(err => err.message)
-      return res.status(500).json({error_messages})
+      returnTrueResponse(res, 500, false, error_messages)
     } else {
-      returnError(res, error)
+      returnFalseResponse(res, false, error)
     }
   }
 }
@@ -164,7 +180,7 @@ self.getAll = async (req, res) => {
       data: data
     })
   } catch (error) {
-    returnError(res, error)
+    returnFalseResponse(res, false, error)
   }
 }
 
@@ -181,13 +197,9 @@ self.get = async (req, res) => {
         data: data
       })
     else
-      return res.status(400).json({
-        success: false,
-        error: "No such user present",
-        data: []
-      })
+    returnTrueResponse(res, 400, false, "No such user present")
   } catch (error) {
-    returnError(res, error)
+    returnFalseResponse(res, false, error)
   }
 }
 
@@ -205,10 +217,7 @@ self.updateUser = async (req, res) => {
       attributes: ['id', 'email', "role_id"]
     });
     if (data[0] === 0) {
-      return res.status(200).json({
-        success: false,
-        error: "No user found with this id"
-      })
+      returnTrueResponse(res, 200, false, "No user found with this id")
     }
     return res.status(200).json({
       success: true,
@@ -218,9 +227,9 @@ self.updateUser = async (req, res) => {
   } catch (error) {
     if (error.name == 'SequelizeValidationError' || error.name == 'SequelizeUniqueConstraintError') {
       const error_messages = error.errors.map(err => err.message)
-      return res.status(500).json({error_messages})
+      returnTrueResponse(res, 500, false, error_messages)
     } else {
-      returnError(res, error)
+      returnFalseResponse(res, false, error)
     }
   }
 }
@@ -240,13 +249,10 @@ self.delete = async (req, res) => {
         message: `User with id=${id} deleted`
       })
     } else {
-      return res.status(200).json({
-        success: false,
-        message: `User with id=${id} is not present.`
-      })
+      returnTrueResponse(res, 200, false, `User with id=${id} is not present.`)
     }
   } catch (error) {
-    returnError(res, error)
+    returnFalseResponse(res, false, error)
   }
 }
 
@@ -262,61 +268,94 @@ self.deleteAll = async (req, res) => {
       data: data
     });
   } catch (error) {
-    returnError(res, error)
+    returnFalseResponse(res, false, error)
   }
 }
 
-// self.errorMessage = async(status, email) => {
-//   switch (status) {
-//     case 'inactive':
-//       `sorry! ${email} your status is ${status}, Please contact with admin`
-//       break;
-//     case 'deleted':
-//       `Hello ${email} your a ${status} user, create new account`
-//       break;
-//     case 'pending':
-//       `Hey your status is ${status}, Admin will check as soon as posible`
-//   }
-// };
+self.sendForgotPasswordLink = async(req, res) => {
+  const user_data = await user.findOne({where: {email: req.body.email}});
+  if(!user_data){
+    return res.status(401).json({ message: 'User not found' });
+  } else {
+    const mailPayload = await forgot_password_payload(req.body.email)
+    setup_transporter_details().sendMail(mailPayload, function (err, info) {
+      err ? returnFalseResponse(res, false, err) : console.log('mail info', info)
+      return res.status(201).json({
+        success: true,
+        message: `Forgot password email send on ${req.body.email} Please check your email.`,
+        message_id: info.messageId
+      })
+    });
+  }
+}
 
 self.activateUser = async(req, res) => {
   try {
     let email = jwt.verify(req.params.token, 'SECRET')
     let user_object = await user.findOne({where: {email: email}});
     if (user_object.status == 'active'){
-      return res.status(200).json({ success: true, message: "User already activated" })
+      returnTrueResponse(res, 200, true, "User already activated")
     }
     let activated_data = await user.update({status: 'active'}, {where: {email: email}});
 
     if (!activated_data[0] == 0) {
-      return res.status(200).json({
-        success: true,
-        error: "User activated successfully"
-      })
+      returnTrueResponse(res, 200, true, "User activated successfully")
     }
   } catch (error) {
-    returnError(res, error)
+    returnFalseResponse(res, false, error)
   }
 }
 
-function returnError(res, error) {
+self.updatePassword = async(req, res) => {
+  try {
+    let email = jwt.verify(req.params.token, 'SECRET')
+    let new_password = req.body.new_password
+    let activated_data = await user.update({password: new_password}, {where: {email: email}});
+
+    if (!activated_data[0] == 0) {
+      returnTrueResponse(res, 200, true, "User password update successfully")
+    }
+  } catch (error) {
+    returnFalseResponse(res, false, error)
+  }
+}
+
+function returnFalseResponse(res, is_sucess, error) {
   res.status(500).json({
-    success: false,
+    success: is_sucess,
     error: error
   })
 }
 
-async function setup_email_payload(email) {
+function returnTrueResponse(res, status_code, is_sucess, message) {
+  return res.status(status_code).json({
+    success: is_sucess,
+    message: message
+  })
+}
+
+async function create_user_email_payload(email) {
   link = `http://localhost:${process.env.PORT}/api/users/activation/${jwt.sign(email, 'SECRET')}`
   mailPayload = {
-    from: 'Netflix Subscription App<achyutkadam27@gmail.com>',
+    from: 'Subscription App<achyutkadam27@gmail.com>',
     to: email,
     subject: 'Welcome, for onboarding process',
     text: `Hello ${email} welcome to subscription module application, we are check your details as soon as possible.`,
     html: `<b>Hey there! </b><br>Hello ${email} welcome to subscription module application, <a href=${link}>Click here to activate your account</a>.<br/> ${new Date()}`
   }
   return mailPayload
-  // this.transporter = await setup_transporter_details()
+}
+
+async function forgot_password_payload(email) {
+  link = `http://localhost:${process.env.PORT}/api/users/update_password/${jwt.sign(email, 'SECRET')}`
+  mailPayload = {
+    from: process.env.FROM_EMAIL,
+    to: email,
+    subject: 'Forgot password link',
+    text: `Hello ${email} welcome to subscription module application, we are check your details as soon as possible.`,
+    html: `<b>Hey there! </b><br>Hello ${email} update your password usign<a href=${link}> this link</a>.<br/> ${new Date()}`
+  }
+  return mailPayload
 }
 
 function setup_transporter_details() {
