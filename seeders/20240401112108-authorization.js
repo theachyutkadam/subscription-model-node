@@ -55,6 +55,16 @@ module.exports = {
         updatedAt: new Date()
       },
       {
+        path: 'companies',
+        role_id: 1,
+        can_read: true,
+        can_write: true,
+        can_update: true,
+        can_delete: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
         path: 'roles',
         role_id: 2,
         can_read: true,
@@ -88,6 +98,16 @@ module.exports = {
         path: 'subscriptions',
         role_id: 2,
         can_read: false,
+        can_write: false,
+        can_update: false,
+        can_delete: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        path: 'companies',
+        role_id: 2,
+        can_read: true,
         can_write: false,
         can_update: false,
         can_delete: false,

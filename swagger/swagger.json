@@ -1081,7 +1081,7 @@
       "Authorization": {
         "type": "object",
         "properties": {
-          "name": {
+          "path": {
             "type": "string",
             "required": true
           },
@@ -1256,11 +1256,13 @@
             "type": "string",
             "minLength": 10,
             "maxLength": 13,
-            "required": true
+            "required": true,
+            "example": "987987985"
           },
           "deletedAt": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": ""
           },
           "status": {
             "type": "integer",

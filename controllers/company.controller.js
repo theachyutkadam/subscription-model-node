@@ -11,9 +11,7 @@ let self = {};
 * @returns JSON
 */
 self.getAll = async (req, res) => { }
-console.log('Check-frist-->');
-console.log('Check-frist-->');
-console.log('Check-frist-->');
+
 /**
 * @description Create New Company
 * @type POST
