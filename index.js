@@ -1,3 +1,20 @@
+// require('dotenv').config();
+// const express = require("express");
+// const cors = require("cors");
+// const logger = require('morgan');
+// // import swagger ui module and swagger json file
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerDocument = require('./swagger/swagger.json');
+// var corsOptions = { origin: "http://localhost:8081" };
+
+// const app = express();
+// app.use(cors({
+//   origin: 'http://localhost:4200'
+// }));
+// app.use(cors(corsOptions));
+// app.use(express.json());
+// app.use(logger('dev'))
+// app.use(express.urlencoded({ extended: true }));
 require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
@@ -5,12 +22,16 @@ const logger = require('morgan');
 // import swagger ui module and swagger json file
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger.json');
-var corsOptions = { origin: "http://localhost:8081" };
 
 const app = express();
-app.use(cors(corsOptions));
+
+// Set up CORS to allow requests from http://localhost:4200
+app.use(cors({
+  origin: 'http://localhost:4200'
+}));
+
 app.use(express.json());
-app.use(logger('dev'))
+app.use(logger('dev'));
 app.use(express.urlencoded({ extended: true }));
 
 const roles = require('./routes/role.routes');
