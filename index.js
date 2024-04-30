@@ -19,11 +19,13 @@ const plans = require('./routes/plan.routes');
 const subscriptions = require('./routes/subscription.routes');
 const authorizations = require('./routes/authorization.routes');
 const user_informations = require('./routes/user_information.routes');
+const companies = require('./routes/company.routes');
 
 app.use('/api/users', users);
 app.use('/api/roles', roles);
 app.use('/api/plans', plans);
 app.use('/api/subscriptions', subscriptions);
+app.use('/api/companies', companies);
 app.use('/api/authorizations', authorizations);
 app.use('/api/user_informations', user_informations);
 
