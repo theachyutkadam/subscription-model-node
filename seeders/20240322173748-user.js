@@ -2,10 +2,27 @@
 
 /** @type {import('sequelize-cli').Migration}*/
 const {faker} = require('@faker-js/faker');
-const { user, Sequelize } = require("./../models");
+const { user, Company, Sequelize } = require("./../models");
 
 module.exports = {
   async up (queryInterface, Sequelize) {
+    const companiesList = [];
+    const comp_statuses = Company.getAttributes().status.values
+    for (let i = 0; i < 10; i++) {
+      const comapnySeedData = {
+        name: faker.company.name(),
+        email: faker.internet.email(),
+        status: comp_statuses[Math.floor(Math.random()*comp_statuses.length)],
+        contact: faker.number.int({ min: 1111111111, max: 9999999999 }),
+        address: faker.location.streetAddress(),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      companiesList.push(comapnySeedData);
+      console.log('------company created-----------', i+1);
+    }
+    await queryInterface.bulkInsert('Companies', companiesList, {});
+
     const usersList = [{
       email: "admin@mailinator.com",
       password: "$2a$12$C1ysEDbeAPLvic86kF6k6O3di0U947zF8aVEkpClP1MjyuHT.ZQFq",

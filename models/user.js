@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'role_id',
         onDelete: 'CASCADE'
       }),
+      user.belongsTo(models.Company, {
+        foreignKey: 'company_id',
+        onDelete: 'CASCADE'
+      }),
       user.hasOne(models.user_information, {
         foreignKey: 'user_id',
       }),
@@ -48,6 +52,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg: 'Please provide a role' }
       }
     },
+    company_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Please provide a company' }
+      }
+    },
     status: {
       type:  Sequelize.ENUM('pending', 'active', 'inactive', 'deleted'),
       defaultValue: "pending"
@@ -62,7 +73,8 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         fields: ["email"]
       }
-    ]
+    ],
+    primary_key: [user.role_id, user.company_id]
   });
 
   return user;

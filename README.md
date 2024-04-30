@@ -81,3 +81,19 @@ Use the following commands for create model, migration files, controllers, seed 
 *check following examples*
  - sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
  - sequelize-cli seed:generate --name user
+
+
+**Use a console for handle DB**
+ - execute follwing command in terminal.
+ - ```node --experimental-repl-await```
+ - ```models = require('./models');```
+ - ```Authorization = models.Authorization```
+ - ```Role = models.role```
+ - ```User = models.user```
+ - ```UserInformation = models.user_information```
+ - ```Plan = models.plan```
+ - ```Company = models.Company```
+ - ```Subscription = models.subscription```
+ - Now you can use object like following.
+ - e.g ```await User.findAll()```
+*(To exit console, press Ctrl+C again or Ctrl+D or type .exit)*
