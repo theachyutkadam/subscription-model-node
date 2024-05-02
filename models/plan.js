@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       plan.hasMany(models.subscription, {
         foreignKey: 'plan_id',
+      }),
+      plan.belongsTo(models.user, {
+        foreignKey: 'user_id',
+        onDelete: 'CASCADE'
       })
     }
   }
@@ -36,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg: 'Please select a status' }
       }
     },
+    user_id: DataTypes.INTEGER,
     expire_at: {
       type: DataTypes.DATE,
       allowNull: false,

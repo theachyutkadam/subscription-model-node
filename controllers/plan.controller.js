@@ -67,12 +67,6 @@ module.exports = self;
 
 // create plan funcation--------
 self.createPlan = async (req, res) => {
-  // if (!req.body.name) {
-  //   return res.status(400).send({
-  //     success: false,
-  //     message: "Content can not be empty!"
-  //   });
-  // }
   try {
     let data = await plan.create(req.body);
     return res.status(201).json({
@@ -92,7 +86,9 @@ self.createPlan = async (req, res) => {
 // get all plans funcation--------
 self.getAll = async (req, res) => {
   try {
-    let data = await plan.findAll({});
+    let data = await plan.findAll({
+      where: { user_id: req.user.id}
+    });
     return res.status(200).json({
       success: true,
       count: data.length,

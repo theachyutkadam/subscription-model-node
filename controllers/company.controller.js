@@ -86,10 +86,7 @@ self.createCompany = async (req, res) => {
 // get all companies funcation--------
 self.getAll = async (req, res) => {
   try {
-    console.log('Check-11111111111111-->');
-    console.log('Check--comapny->', Company.getAttributes().status.values);
-    console.log('Check-22222222222222-->');
-    let data = await Company.findAll({});
+    let data = await Company.findAll({paranoid: false});
     return res.status(200).json({
       success: true,
       count: data.length,

@@ -16,7 +16,7 @@ module.exports = {
         user_id: users[Math.floor(Math.random()*users.length)],
         activation_date: faker.date.anytime(),
         expired_date: faker.date.anytime(),
-        // plan_price: plan.price,
+        plan_price: Math.random(3)*150,
         createdAt: new Date(),
         updatedAt: new Date()
       };

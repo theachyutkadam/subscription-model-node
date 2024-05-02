@@ -24,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
       }),
       user.hasMany(models.subscription, {
         foreignKey: 'user_id',
+      }),
+      user.hasMany(models.plan, {
+        foreignKey: 'user_id',
       })
     }
   }
