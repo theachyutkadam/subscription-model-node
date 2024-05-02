@@ -172,6 +172,7 @@ self.createUser = async (req, res) => {
 self.getAll = async (req, res) => {
   try {
     let data = await user.findAll({
+      where: { company_id: req.user.company_id},
       include: [{model: models.role, required: true}]
     });
     return res.status(200).json({

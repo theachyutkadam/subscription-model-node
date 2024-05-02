@@ -105,6 +105,7 @@ self.createSubscription = async (req, res) => {
 self.getAll = async (req, res) => {
   try {
     let data = await subscription.findAll({
+      where: { user_id: req.user.id},
       include: [
         { model: models.user, required: true },
         { model: models.plan, required: true }

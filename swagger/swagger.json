@@ -1148,6 +1148,10 @@
             "format": "password",
             "example": "12345678"
           },
+          "company_id": {
+            "type": "integer",
+            "required": 1
+          },
           "role_id": {
             "type": "integer",
             "required": true,

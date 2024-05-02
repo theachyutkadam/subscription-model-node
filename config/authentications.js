@@ -32,7 +32,7 @@ module.exports = async (req, res, next) => {
     //     next()
     //   }
     // }
-    req.user = auth_user;
+    req.user = user;
     next()
 
     // console.log('end of auth--->');
