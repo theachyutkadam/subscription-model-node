@@ -23,14 +23,18 @@ module.exports = async (req, res, next) => {
         status: 'fail',
         message: `sorry! you are status is ${user.status}, Please contact with admin`
       });
-    } else {
-      const authorization_data = await models.Authorization.findOne({where: {role_id: user.role_id, path: url}})
-      if(authorization_data != null || req.params.id){
-        await checkUserPermissions(authorization_data)
-        req.user = auth_user;
-        next()
-      }
     }
+    // else {
+    //   const authorization_data = await models.Authorization.findOne({where: {role_id: user.role_id, path: url}})
+    //   if(authorization_data != null || req.params.id){
+    //     await checkUserPermissions(authorization_data)
+    //     req.user = auth_user;
+    //     next()
+    //   }
+    // }
+    req.user = user;
+    next()
+
     // console.log('end of auth--->');
     // req.user = auth_user;
     // next()

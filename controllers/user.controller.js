@@ -172,7 +172,12 @@ self.createUser = async (req, res) => {
 self.getAll = async (req, res) => {
   try {
     let data = await user.findAll({
-      include: [{model: models.role, required: true}]
+      where: { company_id: req.user.company_id},
+      paranoid: false,
+      include: [
+        {model: models.role, required: true},
+        {model: models.Company, required: true}
+      ]
     });
     return res.status(200).json({
       success: true,
@@ -189,7 +194,10 @@ self.get = async (req, res) => {
   try {
     let id = req.params.id;
     let data = await user.findByPk(id, {
-      include: [{model: models.role, required: true}]
+      include: [
+        {model: models.role, required: true},
+        {model: models.Company, required: true}
+      ]
     });
     if (data)
       return res.status(200).json({
@@ -207,11 +215,13 @@ self.get = async (req, res) => {
 self.updateUser = async (req, res) => {
   try {
     let id = req.params.id;
-    const user_payload = {
-      email: req.body.email,
-      password: await bcrypt.hash(req.body.password, 12),
-    };
-    let data = await user.update(user_payload, {where: {id: id}});
+    req.body.password = await bcrypt.hash(req.body.password, 12)
+
+    // const user_payload = {
+    //   email: req.body.email,
+    //   password: await bcrypt.hash(req.body.password, 12),
+    // };
+    let data = await user.update(req.body, {where: {id: id}});
     let updatedUser = await user.findByPk(id, {
       include: {model: models.role, required: true},
       attributes: ['id', 'email', "role_id"]

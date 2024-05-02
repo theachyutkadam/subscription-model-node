@@ -1,11 +1,11 @@
-const { plan, Sequelize } = require("./../models");
+const { Company, Sequelize } = require("../models");
 const Op = Sequelize.Op;
 let self = {};
 
 /**
-* @description Get All Plans
+* @description Get All Companies
 * @type GET
-* @path /api/plans
+* @path /api/companies
 * @param {*} req
 * @param {*} res
 * @returns JSON
@@ -13,62 +13,62 @@ let self = {};
 self.getAll = async (req, res) => { }
 
 /**
-* @description Create New Plan
+* @description Create New Company
 * @type POST
-* @path /api/plans/
+* @path /api/companies/
 * @param {*} req
 * @param {*} res
 * @returns JSON
 */
+self.createCompany = async (req, res) => { }
 
-self.createPlan = async (req, res) => { }
 /**
-* @description Get Single Plan info by id
+* @description Get Single Company info by id
 * @type GET
-* @path /api/plans/:id
+* @path /api/companies/:id
 * @param {*} req
 * @param {*} res
-* @param {Number} — id — plan id
+* @param {Number} — id — company id
 * @returns JSON
 */
-
 self.get = async (req, res) => { }
+
 /**
-* @description Update Plan data
+* @description Update Company data
 * @type PUT
-* @path /api/plans/:id
+* @path /api/companies/:id
 * @param {*} req
 * @param {*} res
 * @returns JSON
 */
+self.updateCompany = async (req, res) => { }
 
-self.updatePlan = async (req, res) => { }
 /**
-* @description Delete plan with the specified id in the request
+* @description Delete company with the specified id in the request
 * @type DELETE
-* @path /api/plans/:id
+* @path /api/companies/:id
 * @param {*} req
 * @param {*} res
 * @returns JSON
 */
-
 self.delete = async (req, res) => { }
+
 /**
-* @description Delete all plans from the database
+* @description Delete all companies from the database
 * @type DELETE
-* @path /api/plans/:id
+* @path /api/companies/:id
 * @param {*} req
 * @param {*} res
 * @returns JSON
 */
-
 self.deleteAll = async (req, res) => { };
+
 module.exports = self;
 
-// create plan funcation--------
-self.createPlan = async (req, res) => {
+// create company funcation--------
+self.createCompany = async (req, res) => {
   try {
-    let data = await plan.create(req.body);
+    let data = await Company.create(req.body);
     return res.status(201).json({
       success: true,
       data: data
@@ -83,12 +83,10 @@ self.createPlan = async (req, res) => {
   }
 }
 
-// get all plans funcation--------
+// get all companies funcation--------
 self.getAll = async (req, res) => {
   try {
-    let data = await plan.findAll({
-      where: { user_id: req.user.id}
-    });
+    let data = await Company.findAll({paranoid: false});
     return res.status(200).json({
       success: true,
       count: data.length,
@@ -99,11 +97,12 @@ self.getAll = async (req, res) => {
   }
 }
 
-// get single plan by ID funcation--------
+// get single company by ID funcation--------
 self.get = async (req, res) => {
+  console.log("status", Company.getAttributes().status.values);
   try {
     let id = req.params.id;
-    let data = await plan.findByPk(id);
+    let data = await Company.findByPk(id);
     if (data)
       return res.status(200).json({
         success: true,
@@ -112,7 +111,7 @@ self.get = async (req, res) => {
     else
       return res.status(400).json({
         success: false,
-        error: "No such plan present",
+        error: "No such company present",
         data: []
       })
   } catch (error) {
@@ -120,24 +119,23 @@ self.get = async (req, res) => {
   }
 }
 
-// update plan by ID funcation--------
-self.updatePlan = async (req, res) => {
+// update company by ID funcation--------
+self.updateCompany = async (req, res) => {
   try {
     let id = req.params.id;
-    let data = await plan.update(req.body, {where: {id: id}});
-    let updatedPlan = await plan.findByPk(id);
+    let data = await Company.update(req.body, {where: {id: id}});
+    let updatedCompany = await Company.findByPk(id);
     if (data[0] === 0) {
       return res.status(200).json({
         success: false,
-        error: "No plan found with this id"
-      })
-    } else {
-      return res.status(200).json({
-        success: true,
-        data: updatedPlan,
-        message: "Plan update successfully"
+        error: "No company found with this id"
       })
     }
+    return res.status(200).json({
+      success: true,
+      data: updatedCompany,
+      message: "Company update successfully"
+    })
   } catch (error) {
     if (error.name == 'SequelizeValidationError' || error.name == 'SequelizeUniqueConstraintError') {
       const error_messages = error.errors.map(err => err.message)
@@ -148,11 +146,11 @@ self.updatePlan = async (req, res) => {
   }
 }
 
-// delete plan by ID funcation--------
+// delete company by ID funcation--------
 self.delete = async (req, res) => {
   try {
     let id = req.params.id;
-    let data = await plan.destroy({
+    let data = await Company.destroy({
       where: {
         id: id
       }
@@ -160,12 +158,12 @@ self.delete = async (req, res) => {
     if (data === 1) {
       return res.status(200).json({
         success: true,
-        message: `Plan with id=${id} deleted`
+        message: `Company with id=${id} deleted`
       })
     } else {
       return res.status(200).json({
         success: false,
-        message: `Plan with id=${id} is not present.`
+        message: `Company with id=${id} is not present.`
       })
     }
   } catch (error) {
@@ -176,10 +174,10 @@ self.delete = async (req, res) => {
   }
 }
 
-// delete all plans funcation--------
+// delete all companies funcation--------
 self.deleteAll = async (req, res) => {
   try {
-    let data = await plan.destroy({
+    let data = await Company.destroy({
       where: {},
       truncate: true
     });
