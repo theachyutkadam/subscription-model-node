@@ -10,8 +10,8 @@ module.exports = {
         {
           type: Sequelize.INTEGER,
           onDelete: 'CASCADE',
-          allowNull: false,
-          primaryKey: true,
+          // allowNull: false,
+          // primaryKey: true,
           references: {
             model: 'companies', //table name
             key: 'id',
