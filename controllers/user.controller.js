@@ -174,7 +174,10 @@ self.getAll = async (req, res) => {
     let data = await user.findAll({
       where: { company_id: req.user.company_id},
       paranoid: false,
-      include: [{model: models.role, required: true}]
+      include: [
+        {model: models.role, required: true},
+        {model: models.Company, required: true}
+      ]
     });
     return res.status(200).json({
       success: true,
@@ -191,7 +194,10 @@ self.get = async (req, res) => {
   try {
     let id = req.params.id;
     let data = await user.findByPk(id, {
-      include: [{model: models.role, required: true}]
+      include: [
+        {model: models.role, required: true},
+        {model: models.Company, required: true}
+      ]
     });
     if (data)
       return res.status(200).json({
