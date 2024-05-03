@@ -76,8 +76,8 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         fields: ["email"]
       }
-    ],
-    primary_key: [user.role_id, user.company_id]
+    ]
+    // primary_key: [user.role_id, user.company_id]
   });
 
   return user;
