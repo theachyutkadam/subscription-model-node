@@ -111,11 +111,18 @@ self.getAll = async (req, res) => {
         { model: models.plan, required: true }
       ]
     });
-    return res.status(200).json({
-      success: true,
-      count: data.length,
-      data: data
-    })
+    if (data.length != 0) {
+      return res.status(200).json({
+        success: true,
+        count: data.length,
+        data: data
+      })
+    } else {
+      return res.status(200).json({
+        success: false,
+        error: "No such subscriptions present",
+      })
+    }
   } catch (error) {
     returnError(res, error)
   }
