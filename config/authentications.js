@@ -24,20 +24,12 @@ module.exports = async (req, res, next) => {
         message: `sorry! you are status is ${user.status}, Please contact with admin`
       });
     }
-    // else {
-    //   const authorization_data = await models.Authorization.findOne({where: {role_id: user.role_id, path: url}})
-    //   if(authorization_data != null || req.params.id){
-    //     await checkUserPermissions(authorization_data)
-    //     req.user = auth_user;
-    //     next()
-    //   }
-    // }
-    req.user = user;
-    next()
-
-    // console.log('end of auth--->');
-    // req.user = auth_user;
-    // next()
+    else {
+      const authorization_data = await models.Authorization.findOne({where: {role_id: user.role_id, path: url}})
+      if(authorization_data != null || req.params.id){
+        checkUserPermissions(user, authorization_data)
+      }
+    }
   } catch (error) {
     console.log('Check--center error->', error);
     res.status(401).json(
@@ -45,19 +37,36 @@ module.exports = async (req, res, next) => {
     );
   }
 
-  function checkUserPermissions(authorization_data){
+  function checkUserPermissions(user, authorization_data){
     let message = `sorry! You don't have a access for this action`
     if (req.method == 'GET'){
-      return authorization_data.can_read ? '' : res.status(403).json({ status: false, message: message})
-    }
-    if (req.method == 'DELETE'){
-      return authorization_data.can_delete ? '' : res.status(403).json({ status: false, message: message})
-    }
-    if (req.method == 'POST'){
-      return authorization_data.can_write ? '' : res.status(403).json({ status: false, message: message})
-    }
-    if (req.method == 'PUT'){
-      return authorization_data.can_update ? '' : res.status(403).json({ status: false, message: message})
+      if (authorization_data.can_read) {
+        req.user = user;
+        next()
+      } else {
+        return res.status(403).json({ status: false, message: message})
+      }
+    } else if (req.method == 'DELETE'){
+      if (authorization_data.can_delete) {
+        req.user = user;
+        next()
+      } else {
+        return res.status(403).json({ status: false, message: message})
+      }
+    } else if (req.method == 'POST'){
+      if (authorization_data.can_write) {
+        req.user = user;
+        next()
+      } else {
+        return res.status(403).json({ status: false, message: message})
+      }
+    } else if (req.method == 'PUT'){
+      if (authorization_data.can_update) {
+        req.user = user;
+        next()
+      } else {
+        return res.status(403).json({ status: false, message: message})
+      }
     }
   }
 };
